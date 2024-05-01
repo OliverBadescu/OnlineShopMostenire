@@ -1,0 +1,6 @@
+Admin,1,admin,123
+Customer,1,john,password123,John Smith,john@example.com,56 Oak Avenue Othertown,usa,12345690
+Customer,2,maria,securepass,Maria Garcia,maria@example.com,789 Pine Road Somewhereville,america,6543210
+Customer,3,ahmed,mysecret,Ahmed Khan,ahmed@example.com,101 Cedar Avenue Anotherplace,us,5558999
+Customer,4,sophie,sophiepass,Sophie Johnson,sophie@example.com,321 Elm Avenue Anothercity,USA,4447222
+Customer,5,luca,luca123,Luca Rossi,luca@example.com,543 Cedar Road Anothercity,USA,6633111
