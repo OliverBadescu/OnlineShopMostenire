@@ -1,0 +1,8 @@
+Laptop,1,Apple Macbook Air,8000,10,16,M2,Integrated,15
+Laptop,2,Lenovo,5000,5,32,Intel i9-7500,rtx 2080,13
+Monitor,3,Asus,2000,25,244,21
+Monitor,4,Samsung,1000,100,75,20
+SmartWatch,5,Apple Series 4,2523,50,20
+SmartWatch,6,Apple Series 5,2700,5,15
+Telefon,7,Iphone 15 Pro,5000,50,Negru,3,128
+Telefon,8,Samsung S21,4000,92,Albastru,4,256
