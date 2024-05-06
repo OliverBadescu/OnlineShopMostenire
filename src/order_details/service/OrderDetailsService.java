@@ -39,12 +39,6 @@ public class OrderDetailsService {
         }
     }
 
-    public void afisare(){
-        for(int i =0; i<this.orderDetails.size(); i++){
-            System.out.println(orderDetails.get(i).desciere());
-        }
-    }
-
     public int generateId(){
 
         int id=(int) Math.round(Math.random()*1000+1);
@@ -56,7 +50,6 @@ public class OrderDetailsService {
         return id;
 
     }
-
     public OrderDetails findOrderDetailsById(int id){
         for (int i =0; i < orderDetails.size();i++){
             if(orderDetails.get(i).getId() == id){
@@ -65,12 +58,18 @@ public class OrderDetailsService {
         }
         return null;
     }
+    public void afisare(){
+        for(int i =0; i<this.orderDetails.size(); i++){
+            System.out.println(orderDetails.get(i).desciere());
+        }
+    }
 
-    public void add(OrderDetails order){
+
+    public void adaugare(OrderDetails order){
         this.orderDetails.add(order);
     }
 
-    public ArrayList<OrderDetails> order(ArrayList<Order> list){
+    public ArrayList<OrderDetails> orderList(ArrayList<Order> list){
 
         ArrayList<OrderDetails> orderList = new ArrayList<>();
 

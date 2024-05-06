@@ -8,11 +8,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class UserSerivce {
+public class UserService {
 
     private ArrayList<Users> users;
 
-    public UserSerivce(){
+    public UserService(){
 
         this.users = new ArrayList<>();
 
@@ -64,6 +64,12 @@ public class UserSerivce {
                 System.out.println("\n");
             }
         }
+
+    }
+
+    public void stergeCont(Customer customer){
+
+        this.users.remove(customer);
 
     }
 
