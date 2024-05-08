@@ -67,10 +67,70 @@ public class UserService {
 
     }
 
-    public void stergeCont(Customer customer){
+    public Customer findCustomerById(int id){
+        for (int i =0; i < users.size();i++){
+            if(users.get(i) instanceof Customer c){
+                if(c.getId() == id){
+                    return c;
+                }
+            }
+        }
+        return null;
+    }
+
+    public int generateId(){
+
+        int id=(int) Math.round(Math.random()*1000+1);
+
+        while (findCustomerById(id)!=null){
+            id=(int) Math.round(Math.random()*1000+1);
+        }
+
+        return id;
+
+    }
+
+    public void stergeCont(Customer customer) {
 
         this.users.remove(customer);
 
+    }
+
+    public Customer loginCustomer(String user,String parola){
+
+        for(int i =0; i < users.size();i++){
+            if(users.get(i) instanceof Customer c){
+                if(c.getUsername().equals(user) && c.getPassword().equals(parola)){
+                    return c;
+                }
+            }
+        }
+        return null;
+
+    }
+
+    public Admin loginAdmin(String user,String parola){
+
+        for(int i =0; i < users.size();i++){
+            if(users.get(i) instanceof Admin a){
+                if(a.getUsername().equals(user) && a.getPassword().equals(parola)){
+                    return a;
+                }
+            }
+        }
+        return null;
+
+    }
+
+    public boolean inregistrareCustomer(Customer customer){
+        for(int i =0 ; i < users.size();i++){
+            if(users.get(i) instanceof Customer c){
+                if(c.getUsername().equals(customer.getUsername())){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
