@@ -67,6 +67,14 @@ public class UserService {
 
     }
 
+    public void afisareClient(){
+        for(int i =0 ; i < users.size();i++){
+            if(users.get(i) instanceof Customer c){
+                System.out.println(c.descriereCustomer());
+            }
+        }
+    }
+
     public Customer findCustomerById(int id){
         for (int i =0; i < users.size();i++){
             if(users.get(i) instanceof Customer c){
@@ -131,6 +139,20 @@ public class UserService {
             }
         }
         return true;
+    }
+
+    public boolean adaugareAdmin(Admin admin){
+
+        for(int i= 0 ; i < users.size();i++){
+            if(users.get(i) instanceof Admin a){
+                if(a.getUsername().equals(admin.getUsername())){
+                    return false;
+                }
+            }
+        }
+        users.add(admin);
+        return true;
+
     }
 
 }
