@@ -20,6 +20,7 @@ public class UserService {
 
     }
 
+
     private void loadData(){
 
         try{
@@ -138,6 +139,7 @@ public class UserService {
                 }
             }
         }
+        users.add(customer);
         return true;
     }
 

@@ -119,7 +119,6 @@ public class ProductService {
             }
         }
     }
-
     public void sortareDupaPretCrescator(){
 
         boolean sortat = false;
