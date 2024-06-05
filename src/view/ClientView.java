@@ -4,11 +4,14 @@ import order_details.model.OrderDetails;
 import order_details.service.OrderDetailsService;
 import orders.model.Order;
 import orders.service.OrderService;
-import products.baza.Product;
-import products.service.ProductService;
+import products.models.Product;
+import products.service.CommandServiceImpl;
+import products.service.ProductCommandService;
+import products.service.ProductQueryService;
+import products.service.QueryServiceImpl;
 import reviews.model.Review;
 import reviews.service.ReviewService;
-import users.derivate.Customer;
+import users.models.Customer;
 import users.service.UserService;
 import utile.Cos;
 import utile.ProductDto;
@@ -22,20 +25,22 @@ public class ClientView {
     private UserService userService;
     private OrderService orderService;
     private OrderDetailsService orderDetailsService;
-    private ProductService productService;
     private ReviewService reviewService;
+    private ProductCommandService productCommandService;
+    private ProductQueryService productQueryService;
     private Scanner scanner;
     private Cos cos;
 
     public ClientView(Customer customer){
         this.userService = new UserService();
-        this.orderService = new OrderService();
+        this.orderService = OrderService.getInstance();
         this.orderDetailsService = new OrderDetailsService();
-        this.productService = new ProductService();
         this.reviewService = new ReviewService();
         this.scanner = new Scanner(System.in);
         this.customer = customer;
         this.cos = new Cos(this.customer.getId(), null);
+        this.productCommandService = new CommandServiceImpl();
+        this.productQueryService = new QueryServiceImpl();
 
         this.play();
     }
@@ -93,7 +98,7 @@ public class ClientView {
 
             switch (alegere){
                 case 1:
-                    productService.afisare();
+                    productQueryService.afisare();
                     break;
                 case 2:
                     filtrare();
@@ -128,7 +133,7 @@ public class ClientView {
                     afisareReviewuri();
                     break;
                 case 13:
-                    System.out.println(this.customer.descriereCustomer());
+                    System.out.println(this.customer.descriere());
                     break;
                 case 14:
                     editareDate();
@@ -157,16 +162,16 @@ public class ClientView {
         int alegere = Integer.parseInt(scanner.nextLine());
         switch (alegere){
             case 1:
-                productService.afisareTelefoane();
+                productQueryService.afisareTelefoane();
                 break;
             case 2:
-                productService.afisareMonitor();
+                productQueryService.afisareMonitor();
                 break;
             case 3:
-                productService.afisareLaptopuri();
+                productQueryService.afisareLaptopuri();
                 break;
             case 4:
-                productService.afisareSmartWatch();
+                productQueryService.afisareSmartWatch();
                 break;
             default:
                 System.out.println("Tasta incorecta");
@@ -183,10 +188,10 @@ public class ClientView {
         int alegere = Integer.parseInt(scanner.nextLine());
         switch (alegere){
             case 1:
-                productService.sortareDupaPretDescrescator();
+                productQueryService.sortareDupaPretDescrescator();
                 break;
             case 2:
-                productService.sortareDupaPretCrescator();
+                productQueryService.sortareDupaPretCrescator();
                 break;
             default:
                 System.out.println("Tasta incorecta");
@@ -195,7 +200,7 @@ public class ClientView {
 
     private void celMaiVandutProdus(){
 
-        Product product = productService.findProductById(orderDetailsService.celMaiVandutProdus());
+        Product product = productQueryService.findProductById(orderDetailsService.celMaiVandutProdus());
 
         System.out.println(product.descriere());
 
@@ -210,7 +215,7 @@ public class ClientView {
         while(running ){
             System.out.println("Introduceti numele produsului care doriti sa il adaugati in cos: ");
             String nume = scanner.nextLine();
-            Product product = productService.findByName(nume);
+            Product product = productQueryService.findByName(nume);
 
             if(product != null){
                 System.out.println("Cate bucati doriti?");
@@ -241,7 +246,7 @@ public class ClientView {
         while(running) {
             System.out.println("Introduceti numele produsului care doriti sa il stergeti: ");
             String nume = scanner.nextLine();
-            Product product = productService.findByName(nume);
+            Product product = productQueryService.findByName(nume);
 
 
             for (int i = 0; i < list.size(); i++) {
@@ -299,13 +304,17 @@ public class ClientView {
                 Order order = new Order(id, this.customer.getId(),amount);
                 orderService.add(order);
                 System.out.println("Comanda a fost adaugata");
+
                 for(int i =0 ; i < list.size(); i++){
-                    OrderDetails orderDetails = new OrderDetails(orderDetailsService.generateId(), id, productService.findByName(list.get(i).getName()).getId(), list.get(i).getPrice(), list.get(i).getCantitate());
+                    OrderDetails orderDetails = new OrderDetails(orderDetailsService.generateId(), id, productQueryService.findByName(list.get(i).getName()).getId(), list.get(i).getPrice(), list.get(i).getCantitate());
                     orderDetailsService.adaugare(orderDetails);
-                    Product product = productService.findProductById(orderDetails.getProductId());
+                    Product product = productQueryService.findProductById(orderDetails.getProductId());
                     product.setStock(product.getStock()-orderDetails.getQuantity());
                 }
                 cos.setProducts(null);
+                orderService.saveData();
+                orderDetailsService.saveData();
+                productCommandService.saveData();
             }
         }else{
             System.out.println("Cosul dvs. este gol");
@@ -320,7 +329,7 @@ public class ClientView {
         ArrayList<ProductDto> productDtos = new ArrayList<>();
 
         for(int i =0 ; i < orderDetails.size(); i++){
-            ProductDto productDto = new ProductDto(productService.findProductById(orderDetails.get(i).getProductId()).getName(),orderDetails.get(i).getQuantity(),orderDetails.get(i).getPrice());
+            ProductDto productDto = new ProductDto(productQueryService.findProductById(orderDetails.get(i).getProductId()).getName(),orderDetails.get(i).getQuantity(),orderDetails.get(i).getPrice());
             productDtos.add(productDto);
         }
 
@@ -337,7 +346,7 @@ public class ClientView {
         System.out.println("Introduceti numele produsului la care doriti sa adaugati un review: ");
         String nume = scanner.nextLine();
 
-        Product product = productService.findByName(nume);
+        Product product = productQueryService.findByName(nume);
         if(product!=null){
             System.out.println("Introduceti titlul: ");
             String title = scanner.nextLine();
@@ -346,11 +355,12 @@ public class ClientView {
             System.out.println("Introduceti rating-ul(1-5): ");
             int rating = Integer.parseInt(scanner.nextLine());
 
-            Review review = new Review(reviewService.generateId(), product.getId(), title, desc, rating);
+            Review review = new Review(reviewService.generateId(), product.getId(), title, desc, rating, 0);
             reviewService.adaugareReview(review);
         }else{
             System.out.println("Produsul nu a fost gasit");
         }
+        reviewService.saveData();
 
     }
 
@@ -359,7 +369,7 @@ public class ClientView {
         System.out.println("Introduceti numele produsului la care doriti sa vizualizati reviewurile: ");
         System.out.println("Nume: ");
         String nume = scanner.nextLine();
-        Product product = productService.findByName(nume);
+        Product product = productQueryService.findByName(nume);
 
 
         if(product!=null){
@@ -436,7 +446,9 @@ public class ClientView {
 
         if(alegere.equals("y")){
             userService.stergeCont(this.customer);
+            userService.saveData();
         }
+
 
     }
 }

@@ -4,6 +4,9 @@ import order_details.model.OrderDetails;
 import orders.model.Order;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,6 +18,7 @@ public class OrderDetailsService {
         this.orderDetails = new ArrayList<>();
 
         this.loadData();
+
     }
     public OrderDetailsService(ArrayList<OrderDetails> orderDetails) {
         this.orderDetails = orderDetails;
@@ -23,7 +27,7 @@ public class OrderDetailsService {
     private void loadData() {
 
         try{
-            String filePath="C:\\mycode\\java\\incapsularea\\OnlineShop\\src\\order_details\\data\\orderDetails.txt";
+            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\order_details\\data\\orderDetails.txt";
             File file = new File(filePath);
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
@@ -107,4 +111,29 @@ public class OrderDetailsService {
         return orderDetails;
     }
 
+
+    @Override
+    public String toString() {
+
+        String text="";
+        int i=0;
+        for(i=0;i<this.orderDetails.size()-1;i++){
+            text+=this.orderDetails.get(i)+"\n";
+        }
+        return  text+=this.orderDetails.get(i);
+    }
+
+    public void saveData(){
+        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\order_details\\data\\orderDetails.txt";
+       try{
+           FileWriter fileWriter = new FileWriter(filePath);
+           PrintWriter printWriter = new PrintWriter(fileWriter);
+           printWriter.print(this);
+           printWriter.close();
+       }catch (Exception e){
+
+           System.out.println(e);
+       }
+
+    }
 }

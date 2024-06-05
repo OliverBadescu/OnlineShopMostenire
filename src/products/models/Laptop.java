@@ -1,6 +1,6 @@
-package products.derivate;
+package products.models;
 
-import products.baza.Product;
+import java.util.Objects;
 
 public class Laptop extends Product {
 
@@ -35,7 +35,9 @@ public class Laptop extends Product {
     public int getDimensiune() {return this.dimensiune;}
     public void setDimensiune(int dimensiune) {this.dimensiune = dimensiune;}
 
-    public String descriereLaptop(){
+
+    @Override
+    public String descriere(){
 
         String text = super.descriere();
         text += "Ram: " + this.ram + "GB" + "\n";
@@ -46,6 +48,16 @@ public class Laptop extends Product {
 
     }
 
+    @Override
 
+    public String toString(){
+        return super.toString() + "," + ram + "," + procesor + "," + placaVideo + "," + dimensiune;
 
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        return super.equals(o);
+    }
 }

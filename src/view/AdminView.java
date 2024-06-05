@@ -1,21 +1,22 @@
 package view;
 
-import com.sun.security.jgss.GSSUtil;
 import order_details.model.OrderDetails;
 import order_details.service.OrderDetailsService;
 import orders.model.Order;
 import orders.service.OrderService;
-import org.w3c.dom.ls.LSOutput;
-import products.baza.Product;
-import products.derivate.Laptop;
-import products.derivate.Monitor;
-import products.derivate.SmartWatch;
-import products.derivate.Telefon;
-import products.service.ProductService;
+import products.models.Product;
+import products.models.Laptop;
+import products.models.Monitor;
+import products.models.SmartWatch;
+import products.models.Telefon;
+import products.service.CommandServiceImpl;
+import products.service.ProductCommandService;
+import products.service.ProductQueryService;
+import products.service.QueryServiceImpl;
 import reviews.model.Review;
 import reviews.service.ReviewService;
-import users.derivate.Admin;
-import users.derivate.Customer;
+import users.models.Admin;
+import users.models.Customer;
 import users.service.UserService;
 import utile.ProductDto;
 
@@ -27,19 +28,21 @@ public class AdminView {
     private Admin admin;
     private OrderService orderService;
     private OrderDetailsService orderDetailsService;
-    private ProductService productService;
     private ReviewService reviewService;
     private Scanner scanner;
     private UserService userService;
+    private ProductCommandService productCommandService;
+    private ProductQueryService productQueryService;
 
 
     public AdminView(Admin admin){
         this.admin = admin;
         this.userService = new UserService();
-        this.orderService = new OrderService();
+        this.orderService = OrderService.getInstance();
         this.orderDetailsService = new OrderDetailsService();
-        this.productService = new ProductService();
         this.reviewService = new ReviewService();
+        this.productCommandService = new CommandServiceImpl();
+        this.productQueryService = new QueryServiceImpl();
         this.scanner = new Scanner(System.in);
 
         this.play();
@@ -114,7 +117,7 @@ public class AdminView {
                     editareDateClient();
                     break;
                 case 4:
-                    productService.afisare();
+                    productQueryService.afisare();
                     break;
                 case 5:
                     stergeProdus();
@@ -147,13 +150,13 @@ public class AdminView {
                     promoCraciun();
                     break;
                 case 16:
-                    productService.anularePromoCraciun();
+                    productCommandService.anularePromoCraciun();
                     break;
                 case 17:
                     promoPaste();
                     break;
                 case 18:
-                    productService.anularePromoPaste();
+                    productCommandService.anularePromoPaste();
                     break;
                 case 19:
                     adaugareAdmin();
@@ -179,6 +182,7 @@ public class AdminView {
         }else{
             System.out.println("Client nu a fost gasit");
         }
+        userService.saveData();
 
 
     }
@@ -243,14 +247,15 @@ public class AdminView {
         System.out.println("Introduceti id-ul produsului: ");
         int id = Integer.parseInt(scanner.nextLine());
 
-        Product produs = productService.findProductById(id);
+        Product produs = productQueryService.findProductById(id);
 
         if(produs!= null){
-            productService.stergeProdus(produs);
+            productCommandService.stergeProdus(produs);
             System.out.println("Produsul a fost sters!");
         }else{
             System.out.println("Produsul nu a fost gasit");
         }
+        productCommandService.saveData();
 
     }
 
@@ -258,7 +263,7 @@ public class AdminView {
 
         System.out.println("Introduceti id-ul produsului care doriti sa il editati: ");
         int id = Integer.parseInt(scanner.nextLine());
-        Product produs = productService.findProductById(id);
+        Product produs = productQueryService.findProductById(id);
 
         if (produs != null) {
             if (produs instanceof Laptop l) {
@@ -431,7 +436,7 @@ public class AdminView {
 
     private void celMaiVandutProdus(){
 
-        Product product = productService.findProductById(orderDetailsService.celMaiVandutProdus());
+        Product product = productQueryService.findProductById(orderDetailsService.celMaiVandutProdus());
 
         System.out.println(product.descriere());
 
@@ -453,7 +458,7 @@ public class AdminView {
         ArrayList<ProductDto> productDtos = new ArrayList<>();
 
         for(int i =0 ; i < orderDetails.size(); i++){
-            ProductDto productDto = new ProductDto(productService.findProductById(orderDetails.get(i).getProductId()).getName(),orderDetails.get(i).getQuantity(),orderDetails.get(i).getPrice());
+            ProductDto productDto = new ProductDto(productQueryService.findProductById(orderDetails.get(i).getProductId()).getName(),orderDetails.get(i).getQuantity(),orderDetails.get(i).getPrice());
             productDtos.add(productDto);
         }
         for(int i =0 ; i < productDtos.size(); i++){
@@ -472,6 +477,8 @@ public class AdminView {
         }else{
             System.out.println("Comanda nu a fost gasita");
         }
+
+        orderService.saveData();
     }
 
     private void afisareReviewuri(){
@@ -479,7 +486,7 @@ public class AdminView {
         System.out.println("Introduceti id-ul produsului la care doriti sa vizualizati reviewurile: ");
         System.out.println("Id: ");
         int id = Integer.parseInt(scanner.nextLine());
-        Product product = productService.findProductById(id);
+        Product product = productQueryService.findProductById(id);
 
 
         if(product!=null){
@@ -523,6 +530,7 @@ public class AdminView {
                 }
             }
         }
+        reviewService.saveData();
 
     }
 
@@ -532,7 +540,7 @@ public class AdminView {
         String choice = scanner.nextLine();
 
         if(choice.equals("y")){
-            productService.promoCraciun();
+            productCommandService.promoCraciun();
             System.out.println("Promotia a fost activata!");
         }
     }
@@ -542,7 +550,7 @@ public class AdminView {
         System.out.println("Reducerea de paste este de 30% la toate produsele, doriti sa o aplicati?(y/n)");
         String choice = scanner.nextLine();
         if(choice.equals("y")){
-            productService.promoPaste();
+            productCommandService.promoPaste();
             System.out.println("Promotia a fost activata!");
         }
     }
@@ -553,14 +561,16 @@ public class AdminView {
         String username = scanner.nextLine();
         System.out.println("Introduceti password: ");
         String password = scanner.nextLine();
+        System.out.println("Introduceti gradul(Moderator/Viewer): ");
+        String grad = scanner.nextLine();
 
-        Admin admin = new Admin(userService.generateId(), username, password);
+        Admin admin = new Admin(userService.generateId(), username, password, grad);
 
         if(userService.adaugareAdmin(admin)){
             System.out.println("Adminul a fost adaugat!");
         }else{
             System.out.println("Usernamul este deja folosit");
         }
-
+        userService.saveData();
     }
 }

@@ -1,6 +1,6 @@
-package products.derivate;
+package products.models;
 
-import products.baza.Product;
+import java.util.Objects;
 
 public class Telefon extends Product {
 
@@ -30,7 +30,9 @@ public class Telefon extends Product {
     public int getCapacitate() {return this.capacitate;}
     public void setCapacitate(int capacitate) {this.capacitate = capacitate;}
 
-    public String descriereTelfon(){
+
+    @Override
+    public String descriere(){
 
         String text = super.descriere();
 
@@ -41,4 +43,14 @@ public class Telefon extends Product {
 
     }
 
+    @Override
+    public String toString(){
+        return super.toString() +"," +culoare +"," +nrCamere+"," +capacitate;
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        return super.equals(o);
+    }
 }

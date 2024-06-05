@@ -1,6 +1,4 @@
-package users.derivate;
-
-import users.baza.Users;
+package users.models;
 
 public class Customer extends Users {
 
@@ -42,7 +40,8 @@ public class Customer extends Users {
     public int getPhone() {return phone;}
     public void setPhone(int phone) {this.phone = phone;}
 
-    public String descriereCustomer(){
+    @Override
+    public String descriere(){
 
         String text = super.descriere();
 
@@ -53,5 +52,11 @@ public class Customer extends Users {
         text+= "Phone: " + this.phone + "\n";
         return text;
 
+    }
+
+    @Override
+
+    public String toString(){
+        return super.toString()+"," + fullName+","+email+","+billingAdress+","+country+","+phone;
     }
 }

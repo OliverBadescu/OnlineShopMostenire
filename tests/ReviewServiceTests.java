@@ -16,7 +16,7 @@ public class ReviewServiceTests {
     public void GivenAvailableIdCheckIfGetsFound(){
 
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
+        Review review = new Review(1,1,"test","test",5, 0);
         reviews.add(review);
         reviewService = new ReviewService(reviews);
 
@@ -45,7 +45,7 @@ public class ReviewServiceTests {
     public void afisareSiGenerare(){
 
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
+        Review review = new Review(1,1,"test","test",5, 0);
         reviews.add(review);
         reviewService = new ReviewService(reviews);
 
@@ -59,7 +59,7 @@ public class ReviewServiceTests {
     public void GivenAvailableRatingsCheckIfTotalRatingGetsCalculated(){
 
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
+        Review review = new Review(1,1,"test","test",5,0);
         reviewService = new ReviewService(reviews);
 
         double rating = reviewService.calculareRating(reviews);
@@ -77,7 +77,7 @@ public class ReviewServiceTests {
 
     public void GivenAvailableReviewCheckIfGetsAdded(){
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
+        Review review = new Review(1,1,"test","test",5,0);
         reviewService = new ReviewService(reviews);
 
         reviewService.adaugareReview(review);
@@ -90,8 +90,8 @@ public class ReviewServiceTests {
 
     public void GivenAvailableProductIdCheckIfReviewsGetReturned(){
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
-        Review review1 = new Review(2,2,"test","test",5);
+        Review review = new Review(1,1,"test","test",5,0);
+        Review review1 = new Review(2,2,"test","test",5,0);
         reviews.add(review);
         reviews.add(review1);
         reviewService = new ReviewService(reviews);
@@ -108,8 +108,8 @@ public class ReviewServiceTests {
 
     public void GivenAvailableReviewsCheckReviewsNumber(){
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
-        Review review1 = new Review(2,2,"test","test",5);
+        Review review = new Review(1,1,"test","test",5,0);
+        Review review1 = new Review(2,2,"test","test",5,0);
         reviews.add(review);
         reviews.add(review1);
         reviewService = new ReviewService(reviews);
@@ -124,8 +124,8 @@ public class ReviewServiceTests {
 
     public void GivenAvailableReviewTitleCheckIfGetsFound(){
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
-        Review review1 = new Review(2,2,"test1","test",5);
+        Review review = new Review(1,1,"test","test",5,0);
+        Review review1 = new Review(2,2,"test1","test",5,0);
         reviews.add(review);
         reviews.add(review1);
         reviewService = new ReviewService(reviews);
@@ -140,8 +140,8 @@ public class ReviewServiceTests {
     public void GivenAvailableReviewCheckIfGetsDeleted(){
 
         ArrayList<Review> reviews = new ArrayList<>();
-        Review review = new Review(1,1,"test","test",5);
-        Review review1 = new Review(2,2,"test1","test",5);
+        Review review = new Review(1,1,"test","test",5,0);
+        Review review1 = new Review(2,2,"test1","test",5,0);
         reviews.add(review);
         reviews.add(review1);
         reviewService = new ReviewService(reviews);

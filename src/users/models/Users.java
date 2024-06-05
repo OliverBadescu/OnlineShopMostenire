@@ -1,4 +1,4 @@
-package users.baza;
+package users.models;
 
 public class Users {
 
@@ -39,5 +39,13 @@ public class Users {
         text+= "Username: " + this.username + "\n";
         text += "Password: " + this.password + "\n";
         return text;
+    }
+
+    @Override
+
+    public String toString(){
+
+        return type +"," + id + "," +username +"," +password;
+
     }
 }

@@ -1,6 +1,6 @@
-package products.derivate;
+package products.models;
 
-import products.baza.Product;
+import java.util.Objects;
 
 public class Monitor extends Product {
     private int hz;
@@ -24,7 +24,9 @@ public class Monitor extends Product {
     public double getDimensiune() {return this.dimensiune;}
     public void setDimensiune(double dimensiune) {this.dimensiune = dimensiune;}
 
-    public String descriereMonitor(){
+
+    @Override
+    public String descriere(){
 
         String text = super.descriere();
         text += "Hz: " + this.hz + "\n";
@@ -32,4 +34,17 @@ public class Monitor extends Product {
         return text;
 
     }
+
+    @Override
+
+    public String toString(){
+        return super.toString() + "," + hz + "," + dimensiune;
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        return super.equals(o);
+    }
+
 }

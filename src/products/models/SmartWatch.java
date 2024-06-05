@@ -1,7 +1,6 @@
-package products.derivate;
+package products.models;
 
-import products.baza.Product;
-import products.service.ProductService;
+import java.util.Objects;
 
 public class SmartWatch extends Product {
 
@@ -21,9 +20,22 @@ public class SmartWatch extends Product {
     public int getMarimeBratara() {return marimeBratara;}
     public void setMarimeBratara(int marimeBratara) {this.marimeBratara = marimeBratara;}
 
-    public String descriereSmartWatch(){
+    @Override
+    public String descriere(){
         String text = super.descriere();
         text+= "Marime bratara: " + marimeBratara + "mm" +"\n";
         return text;
     }
+
+    @Override
+    public String toString(){
+        return super.toString() +"," + marimeBratara;
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        return super.equals(o);
+    }
+
 }

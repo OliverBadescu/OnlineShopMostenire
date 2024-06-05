@@ -1,28 +1,24 @@
 package products.service;
 
-import products.baza.Product;
-import products.derivate.Laptop;
-import products.derivate.Monitor;
-import products.derivate.SmartWatch;
-import products.derivate.Telefon;
-import users.baza.Users;
-import users.derivate.Admin;
-import users.derivate.Customer;
+import products.models.*;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ProductService {
+public class QueryServiceImpl implements ProductQueryService{
 
     private ArrayList<Product> products;
 
-    public ProductService() {
+    public QueryServiceImpl(){
         this.products = new ArrayList<>();
         this.loadData();
     }
 
-    private void loadData() {
+
+
+    @Override
+    public void loadData() {
 
 
         try{
@@ -53,9 +49,6 @@ public class ProductService {
                         break;
                 }
 
-                Product product = new Product(line);
-
-                this.products.add(product);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -63,62 +56,60 @@ public class ProductService {
 
 
     }
-
-    public void afisare(){
-
-        for(int i =0; i < this.products.size(); i++){
-            if(products.get(i) instanceof Laptop l){
-                System.out.println(l.descriereLaptop());
-                System.out.println("\n");
-            }
-            else if(products.get(i) instanceof Monitor m){
-                System.out.println(m.descriereMonitor());
-                System.out.println("\n");
-            }
-            else if(products.get(i) instanceof SmartWatch s){
-                System.out.println(s.descriereSmartWatch());
-                System.out.println("\n");
-            }
-            else if(products.get(i) instanceof Telefon t){
-                System.out.println(t.descriereTelfon());
-                System.out.println("\n");
-            }
+    @Override
+    public String toString() {
+        String text="";
+        int i=0;
+        for(i=0;i<this.products.size()-1;i++){
+            text+=this.products.get(i)+"\n";
         }
+        text+=this.products.get(i);
 
+        return text;
     }
-
+    @Override
+    public void afisare(){
+        for(int i =0; i < this.products.size(); i++){
+            System.out.println(products.get(i).descriere());
+        }
+    }
+    @Override
     public void afisareTelefoane(){
         for(int i =0; i < this.products.size(); i++){
             if(products.get(i) instanceof Telefon t){
-                System.out.println(t.descriereTelfon());
+                System.out.println(t.descriere());
                 System.out.println("\n");
             }
         }
     }
+    @Override
     public void afisareLaptopuri(){
         for(int i =0; i < this.products.size(); i++){
             if(products.get(i) instanceof Laptop l){
-                System.out.println(l.descriereLaptop());
+                System.out.println(l.descriere());
                 System.out.println("\n");
             }
         }
     }
+    @Override
     public void afisareMonitor(){
         for(int i =0; i < this.products.size(); i++){
             if(products.get(i) instanceof Monitor m){
-                System.out.println(m.descriereMonitor());
+                System.out.println(m.descriere());
                 System.out.println("\n");
             }
         }
     }
+    @Override
     public void afisareSmartWatch(){
         for(int i =0; i < this.products.size(); i++){
             if(products.get(i) instanceof SmartWatch s){
-                System.out.println(s.descriereSmartWatch());
+                System.out.println(s.descriere());
                 System.out.println("\n");
             }
         }
     }
+    @Override
     public void sortareDupaPretCrescator(){
 
         boolean sortat = false;
@@ -141,6 +132,7 @@ public class ProductService {
         } while (!sortat);
 
     }
+    @Override
     public void sortareDupaPretDescrescator(){
 
         boolean sortat = false;
@@ -163,7 +155,7 @@ public class ProductService {
         } while (!sortat);
 
     }
-
+    @Override
     public int generateId(){
 
         int id=(int) Math.round(Math.random()*1000+1);
@@ -175,7 +167,7 @@ public class ProductService {
         return id;
 
     }
-
+    @Override
     public Product findProductById(int id){
         for (int i =0; i < products.size();i++){
             if(products.get(i).getId() == id){
@@ -184,7 +176,7 @@ public class ProductService {
         }
         return null;
     }
-
+    @Override
     public Product findByName(String name){
         for(int i =0; i < products.size();i++){
             if(products.get(i).getName().equals(name)){
@@ -194,36 +186,5 @@ public class ProductService {
         return null;
     }
 
-    public void stergeProdus(Product product){
-        this.products.remove(product);
-    }
-
-    public void promoCraciun(){
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() * 0.5);
-        }
-    }
-
-    public void promoPaste(){
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() * 0.3);
-        }
-    }
-
-    public void anularePromoCraciun(){
-
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() * 2);
-        }
-
-    }
-
-    public void anularePromoPaste(){
-
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() / 0.7);
-        }
-
-    }
 
 }

@@ -51,4 +51,9 @@ public class OrderDetails {
         return text;
 
     }
+
+    @Override
+    public String toString() {
+        return id +"," + orderId +"," +productId +"," +price +"," +quantity;
+    }
 }

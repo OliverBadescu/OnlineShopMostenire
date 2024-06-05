@@ -3,25 +3,38 @@ package orders.service;
 import orders.model.Order;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class OrderService {
 
     private ArrayList<Order> orders;
-    public OrderService() {
-        this.orders = new ArrayList<>();
 
+    private static OrderService uniqueInstance;
+
+
+    private OrderService() {
+        this.orders = new ArrayList<>();
         this.loadData();
+
     }
 
     public OrderService(ArrayList<Order> orders){
         this.orders = orders;
     }
 
+    public static OrderService getInstance(){
+        if(uniqueInstance == null){
+            uniqueInstance = new OrderService();
+        }
+        return uniqueInstance;
+    }
+
     private void loadData() {
         try{
-            String filePath="C:\\mycode\\java\\incapsularea\\OnlineShop\\src\\orders\\data\\orders.txt";
+            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\orders\\data\\orders.txt";
             File file = new File(filePath);
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
@@ -104,4 +117,28 @@ public class OrderService {
         return customer;
     }
 
+    @Override
+    public String toString() {
+
+        String text="";
+        int i=0;
+        for(i=0;i<this.orders.size()-1;i++){
+            text+=this.orders.get(i)+"\n";
+        }
+        return text+=this.orders.get(i);
+    }
+
+    public void saveData(){
+        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\orders\\data\\orders.txt";
+        try{
+            FileWriter fileWriter = new FileWriter(filePath);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(this);
+            printWriter.close();
+        }catch (Exception e){
+
+            System.out.println(e);
+        }
+
+    }
 }

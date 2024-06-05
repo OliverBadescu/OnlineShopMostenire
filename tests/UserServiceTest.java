@@ -1,6 +1,6 @@
 import org.junit.Test;
-import users.derivate.Admin;
-import users.derivate.Customer;
+import users.models.Admin;
+import users.models.Customer;
 import users.service.UserService;
 
 import static org.junit.Assert.assertEquals;
@@ -109,8 +109,8 @@ public class UserServiceTest {
     public void GivenAvailableAdminCheckIfGetsRegistred(){
 
         userService = new UserService();
-        Admin n1 = new Admin(2, "test", "123");
-        Admin n2= new Admin(3, "admin", "123");
+        Admin n1 = new Admin(2, "test", "123", "t");
+        Admin n2= new Admin(3, "admin", "123", "t");
 
         userService.adaugareAdmin(n1);
         userService.adaugareAdmin(n2);

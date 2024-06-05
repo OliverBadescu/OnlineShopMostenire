@@ -16,7 +16,7 @@ public class OrderServiceTests {
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        OrderService orderService1 = new OrderService();
+        OrderService orderService1 = OrderService.getInstance();
 
         Order order = orderService1.findOrderById(1);
 

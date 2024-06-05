@@ -1,7 +1,7 @@
 package view;
 
-import users.derivate.Admin;
-import users.derivate.Customer;
+import users.models.Admin;
+import users.models.Customer;
 import users.service.UserService;
 
 import java.util.Scanner;
@@ -119,6 +119,7 @@ public class LoginView {
         } else {
             System.out.println("Username-ul este deja folosit");
         }
+        userService.saveData();
 
     }
 

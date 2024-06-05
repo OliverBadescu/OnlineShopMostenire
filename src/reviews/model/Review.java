@@ -9,12 +9,13 @@ public class Review {
     private double rating;
     private int nrReview;
 
-    public Review(int id, int productId, String title, String description, double rating) {
+    public Review(int id, int productId, String title, String description, double rating, int nrReview) {
         this.id = id;
         this.productId = productId;
         this.title = title;
         this.description = description;
         this.rating = rating;
+        this.nrReview = nrReview;
     }
 
     public Review(String text){
@@ -49,6 +50,14 @@ public class Review {
         text += "Rating: " + this.rating + "\n";
 
         return text;
+    }
+
+    @Override
+
+    public String toString(){
+
+        return id+","+productId+","+title+","+description+","+rating+","+nrReview;
+
     }
 
 }

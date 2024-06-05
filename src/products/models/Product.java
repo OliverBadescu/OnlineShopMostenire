@@ -1,4 +1,6 @@
-package products.baza;
+package products.models;
+
+import java.util.Objects;
 
 public class Product {
 
@@ -38,6 +40,8 @@ public class Product {
     public int getStock() {return stock;}
     public void setStock(int stock) {this.stock = stock;}
 
+
+    
     public String descriere(){
 
         String text = "";
@@ -49,5 +53,20 @@ public class Product {
         return text;
 
     }
+
+    @Override
+    public String toString(){
+        return type + "," + id +"," +name + "," +price + "," + stock;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        Product product =(Product) o;
+
+        return this.id==product.id;
+
+    }
+
 
 }

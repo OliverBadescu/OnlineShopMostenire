@@ -1,21 +1,23 @@
 import org.junit.Test;
-import products.baza.Product;
-import products.service.ProductService;
+import products.models.Product;
+import products.service.CommandServiceImpl;
+import products.service.QueryServiceImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ProductServiceTests {
 
-    ProductService productService;
+    CommandServiceImpl commandService;
+    QueryServiceImpl queryService;
 
     @Test
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        productService = new ProductService();
+        queryService = new QueryServiceImpl();
 
-        Product product= productService.findProductById(1);
+        Product product= queryService.findProductById(1);
 
         assertEquals(1, product.getId());
 
@@ -27,33 +29,34 @@ public class ProductServiceTests {
 
     public void afisareSortare(){
 
-        productService = new ProductService();
+        queryService = new QueryServiceImpl();
+        commandService = new CommandServiceImpl();
 
-        productService.afisare();
-        productService.afisareLaptopuri();
-        productService.afisareMonitor();
-        productService.afisareSmartWatch();
-        productService.afisareTelefoane();
+        queryService.afisare();
+        queryService.afisareLaptopuri();
+        queryService.afisareMonitor();
+        queryService.afisareSmartWatch();
+        queryService.afisareTelefoane();
 
-        productService.sortareDupaPretCrescator();
-        productService.sortareDupaPretDescrescator();
+        queryService.sortareDupaPretCrescator();
+        queryService.sortareDupaPretDescrescator();
 
-        int id = productService.generateId();
+        int id = queryService.generateId();
 
-        productService.promoPaste();
-        productService.promoCraciun();
-        productService.anularePromoPaste();
-        productService.anularePromoCraciun();
+        commandService.promoPaste();
+        commandService.promoCraciun();
+        commandService.anularePromoPaste();
+        commandService.anularePromoCraciun();
     }
 
     @Test
 
     public void GivenAvailableProductIdCheckIfGetsFound(){
 
-        productService = new ProductService();
+        queryService = new QueryServiceImpl();
 
-        Product product= productService.findProductById(1);
-        Product none = productService.findProductById(11);
+        Product product= queryService.findProductById(1);
+        Product none = queryService.findProductById(11);
 
         assertEquals(1, product.getId());
         assertNull(none);
@@ -64,10 +67,10 @@ public class ProductServiceTests {
 
     public void GivenAvailableProductNameCheckIfGetsFound(){
 
-        productService = new ProductService();
+        queryService = new QueryServiceImpl();
 
-        Product product = productService.findByName("Samsung S21");
-        Product none = productService.findByName("111");
+        Product product = queryService.findByName("Samsung S21");
+        Product none = queryService.findByName("111");
 
         assertEquals("Samsung S21", product.getName());
         assertNull(none);

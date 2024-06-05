@@ -3,6 +3,8 @@ package reviews.service;
 import reviews.model.Review;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -14,6 +16,7 @@ public class ReviewService {
         this.reviews = new ArrayList<>();
 
         this.loadData();
+
     }
 
     public ReviewService(ArrayList<Review> reviews) {
@@ -23,7 +26,7 @@ public class ReviewService {
     private void loadData(){
 
         try{
-            String filePath="C:\\mycode\\java\\incapsularea\\OnlineShop\\src\\reviews\\data\\reviews.txt";
+            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
             File file = new File(filePath);
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
@@ -36,6 +39,31 @@ public class ReviewService {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+
+    }
+    @Override
+    public String toString() {
+
+        String text="";
+        int i=0;
+        for(i=0;i<this.reviews.size()-1;i++){
+            text+=this.reviews.get(i)+"\n";
+        }
+       text+=this.reviews.get(i);
+        return text;
+    }
+
+    public void saveData(){
+        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
+        try{
+            FileWriter fileWriter = new FileWriter(filePath);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(this);
+            printWriter.close();
+        }catch (Exception e){
+
+            System.out.println(e);
         }
 
     }

@@ -18,7 +18,7 @@ public class Order {
         String[] tokens = text.split(",");
         this.id = Integer.parseInt(tokens[0]);
         this.customerId = Integer.parseInt(tokens[1]);
-        this.totalAmount = Integer.parseInt(tokens[2]);
+        this.totalAmount = Double.parseDouble(tokens[2]);
 
 
     }
@@ -38,6 +38,15 @@ public class Order {
         text += "Customer: " + this.customerId + "\n";
         text += "Total: " + this.totalAmount + "\n";
         return text;
+    }
+
+
+    @Override
+
+    public String toString(){
+
+        return id + "," + customerId + "," + totalAmount;
+
     }
 
 }

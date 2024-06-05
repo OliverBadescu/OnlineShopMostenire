@@ -1,10 +1,12 @@
 package users.service;
 
-import users.baza.Users;
-import users.derivate.Admin;
-import users.derivate.Customer;
+import users.models.Users;
+import users.models.Admin;
+import users.models.Customer;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,6 +19,7 @@ public class UserService {
         this.users = new ArrayList<>();
 
         this.loadData();
+
 
     }
 
@@ -43,25 +46,47 @@ public class UserService {
                         break;
                 }
 
-                Users user = new Users(line);
-
-                this.users.add(user);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
     }
+    public void saveData(){
+        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\users\\data\\data.txt";
+        try{
+            FileWriter fileWriter = new FileWriter(filePath);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.print(this);
+            printWriter.close();
+        }catch (Exception e){
+
+            System.out.println(e);
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        String text="";
+        int i=0;
+        for(i=0;i<this.users.size()-1;i++){
+            text+=this.users.get(i)+"\n";
+        }
+        text+=this.users.get(i);
+
+        return text;
+    }
 
     public void afisare(){
 
         for(int i = 0;i < users.size();i++){
             if(users.get(i) instanceof Admin a){
-                System.out.println(a.descriereAdmin());
+                System.out.println(a.descriere());
                 System.out.println("\n");
             }
             if(users.get(i) instanceof Customer c){
-                System.out.println(c.descriereCustomer());
+                System.out.println(c.descriere());
                 System.out.println("\n");
             }
         }
@@ -71,7 +96,7 @@ public class UserService {
     public void afisareClient(){
         for(int i =0 ; i < users.size();i++){
             if(users.get(i) instanceof Customer c){
-                System.out.println(c.descriereCustomer());
+                System.out.println(c.descriere());
             }
         }
     }
@@ -156,5 +181,6 @@ public class UserService {
         return true;
 
     }
+
 
 }
