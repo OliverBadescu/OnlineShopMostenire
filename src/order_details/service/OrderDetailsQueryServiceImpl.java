@@ -4,27 +4,20 @@ import order_details.model.OrderDetails;
 import orders.model.Order;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class OrderDetailsService {
+public class OrderDetailsQueryServiceImpl implements OrderDetailsQueryService{
 
     private ArrayList<OrderDetails> orderDetails;
 
-    public OrderDetailsService() {
-        this.orderDetails = new ArrayList<>();
-
+    public OrderDetailsQueryServiceImpl(ArrayList<OrderDetails> orderDetails) {
+        this.orderDetails  = orderDetails;
         this.loadData();
-
-    }
-    public OrderDetailsService(ArrayList<OrderDetails> orderDetails) {
-        this.orderDetails = orderDetails;
     }
 
-    private void loadData() {
+    @Override
+    public void loadData() {
 
         try{
             String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\order_details\\data\\orderDetails.txt";
@@ -43,6 +36,7 @@ public class OrderDetailsService {
         }
     }
 
+    @Override
     public int generateId(){
 
         int id=(int) Math.round(Math.random()*1000+1);
@@ -54,6 +48,8 @@ public class OrderDetailsService {
         return id;
 
     }
+
+    @Override
     public OrderDetails findOrderDetailsById(int id){
         for (int i =0; i < orderDetails.size();i++){
             if(orderDetails.get(i).getId() == id){
@@ -62,17 +58,15 @@ public class OrderDetailsService {
         }
         return null;
     }
+
+    @Override
     public void afisare(){
         for(int i =0; i<this.orderDetails.size(); i++){
             System.out.println(orderDetails.get(i).desciere());
         }
     }
 
-
-    public void adaugare(OrderDetails order){
-        this.orderDetails.add(order);
-    }
-
+    @Override
     public ArrayList<OrderDetails> orderList(ArrayList<Order> list){
 
         ArrayList<OrderDetails> orderList = new ArrayList<>();
@@ -87,6 +81,7 @@ public class OrderDetailsService {
         return orderList;
     }
 
+    @Override
     public int celMaiVandutProdus(){
 
         int[] produsFrec = new int[100];
@@ -107,10 +102,10 @@ public class OrderDetailsService {
 
     }
 
+    @Override
     public ArrayList<OrderDetails> getOrderDetails() {
         return orderDetails;
     }
-
 
     @Override
     public String toString() {
@@ -123,17 +118,4 @@ public class OrderDetailsService {
         return  text+=this.orderDetails.get(i);
     }
 
-    public void saveData(){
-        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\order_details\\data\\orderDetails.txt";
-       try{
-           FileWriter fileWriter = new FileWriter(filePath);
-           PrintWriter printWriter = new PrintWriter(fileWriter);
-           printWriter.print(this);
-           printWriter.close();
-       }catch (Exception e){
-
-           System.out.println(e);
-       }
-
-    }
 }

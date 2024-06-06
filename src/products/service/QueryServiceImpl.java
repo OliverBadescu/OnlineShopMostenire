@@ -10,8 +10,8 @@ public class QueryServiceImpl implements ProductQueryService{
 
     private ArrayList<Product> products;
 
-    public QueryServiceImpl(){
-        this.products = new ArrayList<>();
+    public QueryServiceImpl(ArrayList<Product> products){
+        this.products = products;
         this.loadData();
     }
 

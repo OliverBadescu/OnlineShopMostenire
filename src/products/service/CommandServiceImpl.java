@@ -8,108 +8,110 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CommandServiceImpl implements ProductCommandService{
+public class CommandServiceImpl implements ProductCommandService {
 
     private ArrayList<Product> products;
 
-    public CommandServiceImpl(){
-        this.products = new ArrayList<>();
-
+    public CommandServiceImpl(ArrayList<Product> products) {
+        this.products = products;
     }
 
     @Override
-    public void loadData(){
-
-            try{
-                String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\products\\data\\products.txt";
-                File file = new File(filePath);
-                Scanner sc = new Scanner(file);
-                while (sc.hasNextLine()) {
-
-                    String line = sc.nextLine();
-
-                    switch (line.split(",")[0]){
-
-                        case "Laptop":
-                            Laptop laptop = new Laptop(line);
-                            this.products.add(laptop);
-                            break;
-                        case "Monitor":
-                            Monitor monitor = new Monitor(line);
-                            this.products.add(monitor);
-                            break;
-                        case "SmartWatch":
-                            SmartWatch smartWatch = new SmartWatch(line);
-                            this.products.add(smartWatch);
-                            break;
-                        case "Telefon":
-                            Telefon telefon = new Telefon(line);
-                            this.products.add(telefon);
-                            break;
-                    }
-
+    public void loadData() {
+        products.clear();
+        try {
+            String filePath = "C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\products\\data\\products.txt";
+            File file = new File(filePath);
+            Scanner sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                switch (line.split(",")[0]) {
+                    case "Laptop":
+                        Laptop laptop = new Laptop(line);
+                        this.products.add(laptop);
+                        break;
+                    case "Monitor":
+                        Monitor monitor = new Monitor(line);
+                        this.products.add(monitor);
+                        break;
+                    case "SmartWatch":
+                        SmartWatch smartWatch = new SmartWatch(line);
+                        this.products.add(smartWatch);
+                        break;
+                    case "Telefon":
+                        Telefon telefon = new Telefon(line);
+                        this.products.add(telefon);
+                        break;
+                    default:
+                        System.out.println("Unknown product type: " + line.split(",")[0]);
+                        break;
                 }
-            }catch (Exception e){
-                e.printStackTrace();
             }
-
+            sc.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void saveData(){
-        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\products\\data\\products.txt";
-        try{
-            FileWriter fileWriter = new FileWriter(filePath);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
+    public void saveData() {
+        String filePath = "C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\products\\data\\products.txt";
+        try (FileWriter fileWriter = new FileWriter(filePath, false);
+             PrintWriter printWriter = new PrintWriter(fileWriter)) {
             for (Product product : products) {
                 printWriter.println(product.toString());
             }
-            printWriter.close();
-        }catch (Exception e){
-
+        } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     @Override
-    public void stergeProdus(Product product){
-        this.products.remove(product);
-    }
-
-    @Override
-    public void adaugareProdus(Product product){this.products.add(product);}
-
-    @Override
-    public void promoCraciun(){
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() * 0.5);
+    public void stergeProdus(Product product) {
+        boolean removed = this.products.remove(product);
+        if (removed) {
+            System.out.println("Product removed: " + product);
+        } else {
+            System.out.println("Product not found: " + product);
         }
+        saveData();
     }
 
     @Override
-    public void promoPaste(){
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() * 0.3);
-        }
+    public void adaugareProdus(Product product) {
+        this.products.add(product);
+        saveData();
     }
 
     @Override
-    public void anularePromoCraciun(){
-
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() * 2);
+    public void promoCraciun() {
+        for (Product product : products) {
+            product.setPrice(product.getPrice() * 0.5);
         }
-
+        saveData();
     }
 
     @Override
-    public void anularePromoPaste(){
-
-        for(int i =0 ; i < products.size(); i++){
-            products.get(i).setPrice(products.get(i).getPrice() / 0.7);
+    public void promoPaste() {
+        for (Product product : products) {
+            product.setPrice(product.getPrice() * 0.3);
         }
-
+        saveData();
     }
 
+    @Override
+    public void anularePromoCraciun() {
+        for (Product product : products) {
+            product.setPrice(product.getPrice() * 2);
+        }
+        saveData();
+    }
+
+    @Override
+    public void anularePromoPaste() {
+        for (Product product : products) {
+            product.setPrice(product.getPrice() / 0.7);
+        }
+        saveData();
+    }
 }

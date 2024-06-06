@@ -1,7 +1,10 @@
 package view;
 
 import order_details.model.OrderDetails;
-import order_details.service.OrderDetailsService;
+import order_details.service.OrderDetailsCommandService;
+import order_details.service.OrderDetailsCommandServiceImpl;
+import order_details.service.OrderDetailsQueryService;
+import order_details.service.OrderDetailsQueryServiceImpl;
 import orders.model.Order;
 import orders.service.OrderService;
 import products.models.Product;
@@ -24,23 +27,28 @@ public class ClientView {
     private Customer customer;
     private UserService userService;
     private OrderService orderService;
-    private OrderDetailsService orderDetailsService;
     private ReviewService reviewService;
     private ProductCommandService productCommandService;
     private ProductQueryService productQueryService;
     private Scanner scanner;
     private Cos cos;
+    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<OrderDetails> orderDetails = new ArrayList<>();
+    private OrderDetailsQueryService orderDetailsQueryService;
+    private OrderDetailsCommandService orderDetailsCommandService;
+
 
     public ClientView(Customer customer){
         this.userService = new UserService();
         this.orderService = OrderService.getInstance();
-        this.orderDetailsService = new OrderDetailsService();
         this.reviewService = new ReviewService();
         this.scanner = new Scanner(System.in);
         this.customer = customer;
         this.cos = new Cos(this.customer.getId(), null);
-        this.productCommandService = new CommandServiceImpl();
-        this.productQueryService = new QueryServiceImpl();
+        this.productCommandService = new CommandServiceImpl(products);
+        this.productQueryService = new QueryServiceImpl(products);
+        this.orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
+        this.orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
 
         this.play();
     }
@@ -200,7 +208,7 @@ public class ClientView {
 
     private void celMaiVandutProdus(){
 
-        Product product = productQueryService.findProductById(orderDetailsService.celMaiVandutProdus());
+        Product product = productQueryService.findProductById(orderDetailsQueryService.celMaiVandutProdus());
 
         System.out.println(product.descriere());
 
@@ -289,7 +297,7 @@ public class ClientView {
     private void trimiteComanda(){
 
         ArrayList<ProductDto> list = cos.getProducts();
-        int id = orderDetailsService.generateId();
+        int id = orderDetailsQueryService.generateId();
         double amount=0;
 
         if (list!= null){
@@ -306,14 +314,13 @@ public class ClientView {
                 System.out.println("Comanda a fost adaugata");
 
                 for(int i =0 ; i < list.size(); i++){
-                    OrderDetails orderDetails = new OrderDetails(orderDetailsService.generateId(), id, productQueryService.findByName(list.get(i).getName()).getId(), list.get(i).getPrice(), list.get(i).getCantitate());
-                    orderDetailsService.adaugare(orderDetails);
+                    OrderDetails orderDetails = new OrderDetails(orderDetailsQueryService.generateId(), id, productQueryService.findByName(list.get(i).getName()).getId(), list.get(i).getPrice(), list.get(i).getCantitate());
+                    orderDetailsCommandService.adaugare(orderDetails);
                     Product product = productQueryService.findProductById(orderDetails.getProductId());
                     product.setStock(product.getStock()-orderDetails.getQuantity());
                 }
                 cos.setProducts(null);
                 orderService.saveData();
-                orderDetailsService.saveData();
                 productCommandService.saveData();
             }
         }else{
@@ -325,7 +332,7 @@ public class ClientView {
     public void afisareComenzi(){
 
         ArrayList<Order> list = orderService.findOrdersByCustomerId(this.customer.getId());
-        ArrayList<OrderDetails> orderDetails = orderDetailsService.orderList(list);
+        ArrayList<OrderDetails> orderDetails = orderDetailsQueryService.orderList(list);
         ArrayList<ProductDto> productDtos = new ArrayList<>();
 
         for(int i =0 ; i < orderDetails.size(); i++){
