@@ -12,9 +12,6 @@ public class OrderService {
 
     private ArrayList<Order> orders;
 
-    private static OrderService uniqueInstance;
-
-
     private OrderService() {
         this.orders = new ArrayList<>();
         this.loadData();
@@ -25,12 +22,6 @@ public class OrderService {
         this.orders = orders;
     }
 
-    public static OrderService getInstance(){
-        if(uniqueInstance == null){
-            uniqueInstance = new OrderService();
-        }
-        return uniqueInstance;
-    }
 
     private void loadData() {
         try{
