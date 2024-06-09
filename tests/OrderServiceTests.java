@@ -1,5 +1,5 @@
 import orders.model.Order;
-import orders.service.OrderService;
+import orders.service.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,15 +10,18 @@ import static org.junit.Assert.assertNull;
 
 public class OrderServiceTests {
 
-    OrderService orderService;
+    ArrayList<Order> orders = new ArrayList<>();
+    OrderQueryService orderQueryService;
+    OrderCommandService orderCommandService;
 
     @Test
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        OrderService orderService1 = OrderService.getInstance();
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        Order order = orderService1.findOrderById(1);
+        Order order = orderQueryService.findOrderById(1);
 
         assertEquals(1, order.getId());
 
@@ -28,13 +31,13 @@ public class OrderServiceTests {
 
     public void AfisareSiGenerare(){
 
-        ArrayList<Order> orders = new ArrayList<>();
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderService = new OrderService(orders);
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        orderService.afisare();
-        int id = orderService.generateId();
+        orderQueryService.afisare();
+        int id = orderQueryService.generateId();
 
 
     }
@@ -43,13 +46,13 @@ public class OrderServiceTests {
 
     public void GivenAvailableIdCheckIfGetsFound(){
 
-        ArrayList<Order> orders = new ArrayList<>();
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderService = new OrderService(orders);
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        Order order1 = orderService.findOrderById(1);
-        Order order2 = orderService.findOrderById(2);
+        Order order1 = orderQueryService.findOrderById(1);
+        Order order2 = orderQueryService.findOrderById(2);
 
         assertEquals(1, order1.getId());
         assertNull(order2);
@@ -60,11 +63,11 @@ public class OrderServiceTests {
 
     public void GivenAvailableOrderCheckIfGetsAdded(){
 
-        ArrayList<Order> orders = new ArrayList<>();
         Order order = new Order(1,1,999.99);
-        orderService = new OrderService(orders);
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        orderService.add(order);
+        orderCommandService.add(order);
 
         assertEquals(1, order.getId());
 
@@ -73,14 +76,16 @@ public class OrderServiceTests {
     @Test
 
     public void GivenAvailableCustomerIdCheckIfOrdersGetFound(){
-        ArrayList<Order> orders = new ArrayList<>();
+
+
         Order order = new Order(1,1,999.99);
         Order order1 = new Order(2,1,999.99);
         orders.add(order);
         orders.add(order1);
-        orderService = new OrderService(orders);
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        ArrayList<Order> orders1 = orderService.findOrdersByCustomerId(1);
+        ArrayList<Order> orders1 = orderQueryService.findOrdersByCustomerId(1);
 
         assertEquals(1, orders1.get(0).getId());
 
@@ -90,14 +95,14 @@ public class OrderServiceTests {
 
     public void GivenAvailableOrderCheckIfGetsDeleted(){
 
-        ArrayList<Order> orders = new ArrayList<>();
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderService = new OrderService(orders);
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        orderService.stergeComanda(order);
+        orderCommandService.stergeComanda(order);
 
-        assertNull(orderService.findOrderById(1));
+        assertNull(orderQueryService.findOrderById(1));
 
     }
 
@@ -105,12 +110,12 @@ public class OrderServiceTests {
 
     public void ClientCuCeleMaiMulteComenzi(){
 
-        ArrayList<Order> orders = new ArrayList<>();
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderService = new OrderService(orders);
+        orderQueryService = new OrderQueryServiceImpl(orders);
+        orderCommandService = new OrderCommandServiceImpl(orders);
 
-        int id = orderService.clientCuCeleMaiMulteComenzi();
+        int id = orderQueryService.clientCuCeleMaiMulteComenzi();
 
         assertEquals(1, id);
 

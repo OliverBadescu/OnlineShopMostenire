@@ -6,14 +6,17 @@ import order_details.service.OrderDetailsCommandServiceImpl;
 import order_details.service.OrderDetailsQueryService;
 import order_details.service.OrderDetailsQueryServiceImpl;
 import orders.model.Order;
-import orders.service.OrderService;
+import orders.service.OrderCommandService;
+import orders.service.OrderCommandServiceImpl;
+import orders.service.OrderQueryService;
+import orders.service.OrderQueryServiceImpl;
 import products.models.Product;
 import products.service.CommandServiceImpl;
 import products.service.ProductCommandService;
 import products.service.ProductQueryService;
 import products.service.QueryServiceImpl;
 import reviews.model.Review;
-import reviews.service.ReviewService;
+import reviews.service.*;
 import users.models.Customer;
 import users.service.UserService;
 import utile.Cos;
@@ -26,8 +29,6 @@ public class ClientView {
 
     private Customer customer;
     private UserService userService;
-    private OrderService orderService;
-    private ReviewService reviewService;
     private ProductCommandService productCommandService;
     private ProductQueryService productQueryService;
     private Scanner scanner;
@@ -36,12 +37,15 @@ public class ClientView {
     private ArrayList<OrderDetails> orderDetails = new ArrayList<>();
     private OrderDetailsQueryService orderDetailsQueryService;
     private OrderDetailsCommandService orderDetailsCommandService;
-
+    private OrderCommandService orderCommandService;
+    private OrderQueryService orderQueryService;
+    private ArrayList<Order> orders = new ArrayList<>();
+    private ArrayList<Review> reviews = new ArrayList<>();
+    private ReviewCommandService reviewCommandService;
+    private ReviewQueryService reviewQueryService;
 
     public ClientView(Customer customer){
         this.userService = new UserService();
-        this.orderService = OrderService.getInstance();
-        this.reviewService = new ReviewService();
         this.scanner = new Scanner(System.in);
         this.customer = customer;
         this.cos = new Cos(this.customer.getId(), null);
@@ -49,6 +53,10 @@ public class ClientView {
         this.productQueryService = new QueryServiceImpl(products);
         this.orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
         this.orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        this.orderCommandService = new OrderCommandServiceImpl(orders);
+        this.orderQueryService = new OrderQueryServiceImpl(orders);
+        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
+        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
 
         this.play();
     }
@@ -310,7 +318,7 @@ public class ClientView {
             String alegere = scanner.nextLine();
             if(alegere.equals("y")){
                 Order order = new Order(id, this.customer.getId(),amount);
-                orderService.add(order);
+                orderCommandService.add(order);
                 System.out.println("Comanda a fost adaugata");
 
                 for(int i =0 ; i < list.size(); i++){
@@ -320,7 +328,6 @@ public class ClientView {
                     product.setStock(product.getStock()-orderDetails.getQuantity());
                 }
                 cos.setProducts(null);
-                orderService.saveData();
                 productCommandService.saveData();
             }
         }else{
@@ -331,7 +338,7 @@ public class ClientView {
 
     public void afisareComenzi(){
 
-        ArrayList<Order> list = orderService.findOrdersByCustomerId(this.customer.getId());
+        ArrayList<Order> list = orderQueryService.findOrdersByCustomerId(this.customer.getId());
         ArrayList<OrderDetails> orderDetails = orderDetailsQueryService.orderList(list);
         ArrayList<ProductDto> productDtos = new ArrayList<>();
 
@@ -362,12 +369,12 @@ public class ClientView {
             System.out.println("Introduceti rating-ul(1-5): ");
             int rating = Integer.parseInt(scanner.nextLine());
 
-            Review review = new Review(reviewService.generateId(), product.getId(), title, desc, rating, 0);
-            reviewService.adaugareReview(review);
+            Review review = new Review(reviewQueryService.generateId(), product.getId(), title, desc, rating, 0);
+            reviewCommandService.adaugareReview(review);
         }else{
             System.out.println("Produsul nu a fost gasit");
         }
-        reviewService.saveData();
+
 
     }
 
@@ -380,9 +387,9 @@ public class ClientView {
 
 
         if(product!=null){
-            ArrayList<Review> reviews = reviewService.getReviewsProduct(product.getId());
-            int nrRev= reviewService.getNrReviews(reviews);
-            System.out.println("Ratingul total este " + reviewService.calculareRating(reviews) + " si are " + nrRev + " review-uri");
+            ArrayList<Review> reviews = reviewQueryService.getReviewsProduct(product.getId());
+            int nrRev= reviewQueryService.getNrReviews(reviews);
+            System.out.println("Ratingul total este " + reviewQueryService.calculareRating(reviews) + " si are " + nrRev + " review-uri");
             System.out.println("\n");
             for(int i =0 ; i < reviews.size(); i++){
                 System.out.println(reviews.get(i).descriere());

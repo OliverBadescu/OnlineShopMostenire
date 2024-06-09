@@ -16,8 +16,6 @@ public interface OrderQueryService {
 
     ArrayList<Order> findOrdersByCustomerId(int id);
 
-    void stergeComanda(Order order);
-
     int clientCuCeleMaiMulteComenzi();
 
     String toString();

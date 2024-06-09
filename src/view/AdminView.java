@@ -6,14 +6,14 @@ import order_details.service.OrderDetailsCommandServiceImpl;
 import order_details.service.OrderDetailsQueryService;
 import order_details.service.OrderDetailsQueryServiceImpl;
 import orders.model.Order;
-import orders.service.OrderService;
+import orders.service.*;
 import products.models.*;
 import products.service.CommandServiceImpl;
 import products.service.ProductCommandService;
 import products.service.ProductQueryService;
 import products.service.QueryServiceImpl;
 import reviews.model.Review;
-import reviews.service.ReviewService;
+import reviews.service.*;
 import users.models.Admin;
 import users.models.Customer;
 import users.service.UserService;
@@ -25,8 +25,6 @@ import java.util.Scanner;
 public class AdminView {
 
     private Admin admin;
-    private OrderService orderService;
-    private ReviewService reviewService;
     private Scanner scanner;
     private UserService userService;
     private ProductCommandService productCommandService;
@@ -35,17 +33,26 @@ public class AdminView {
     private ArrayList<OrderDetails> orderDetails = new ArrayList<>();
     private OrderDetailsQueryService orderDetailsQueryService;
     private OrderDetailsCommandService orderDetailsCommandService;
+    private OrderCommandService orderCommandService;
+    private OrderQueryService orderQueryService;
+    private ArrayList<Order> orders = new ArrayList<>();
+    private ArrayList<Review> reviews = new ArrayList<>();
+    private ReviewCommandService reviewCommandService;
+    private ReviewQueryService reviewQueryService;
+
 
 
     public AdminView(Admin admin){
         this.admin = admin;
         this.userService = new UserService();
-        this.orderService = OrderService.getInstance();
-        this.reviewService = new ReviewService();
+        this.orderCommandService = new OrderCommandServiceImpl(orders);
+        this.orderQueryService = new OrderQueryServiceImpl(orders);
         this.productCommandService = new CommandServiceImpl(list);
         this.productQueryService = new QueryServiceImpl(list);
         this.orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
         this.orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
+        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
 
         this.scanner = new Scanner(System.in);
 
@@ -139,7 +146,7 @@ public class AdminView {
                     afisareComenzi();
                     break;
                 case 11:
-                    orderService.afisare();
+                    orderQueryService.afisare();
                     break;
                 case 12:
                     stergeComanda();
@@ -448,7 +455,7 @@ public class AdminView {
 
     private void customerLoial(){
 
-        Customer customer = userService.findCustomerById(orderService.clientCuCeleMaiMulteComenzi());
+        Customer customer = userService.findCustomerById(orderQueryService.clientCuCeleMaiMulteComenzi());
 
         System.out.println("Clientul cu cele mai multe comenzi este: ");
         System.out.println(customer.descriere());
@@ -473,15 +480,14 @@ public class AdminView {
         System.out.println("Introduceti id-ul comenzi: ");
         int id = Integer.parseInt(scanner.nextLine());
 
-        Order order = orderService.findOrderById(id);
+        Order order = orderQueryService.findOrderById(id);
         if(order != null) {
-            orderService.stergeComanda(order);
+            orderCommandService.stergeComanda(order);
             System.out.println("Comanda a fost stearsa");
         }else{
             System.out.println("Comanda nu a fost gasita");
         }
 
-        orderService.saveData();
     }
 
     private void afisareReviewuri(){
@@ -493,9 +499,9 @@ public class AdminView {
 
 
         if(product!=null){
-            ArrayList<Review> reviews = reviewService.getReviewsProduct(product.getId());
-            int nrRev= reviewService.getNrReviews(reviews);
-            System.out.println("Ratingul total este " + reviewService.calculareRating(reviews) + " si are " + nrRev + " review-uri");
+            ArrayList<Review> reviews = reviewQueryService.getReviewsProduct(product.getId());
+            int nrRev= reviewQueryService.getNrReviews(reviews);
+            System.out.println("Ratingul total este " + reviewQueryService.calculareRating(reviews) + " si are " + nrRev + " review-uri");
             System.out.println("\n");
             for(int i =0 ; i < reviews.size(); i++){
                 System.out.println(reviews.get(i).descriere());
@@ -511,11 +517,11 @@ public class AdminView {
         System.out.println("Introduceti titlul review-ului: ");
         String title = scanner.nextLine();
 
-        ArrayList<Review> reviews = reviewService.getReviewsByTitle(title);
+        ArrayList<Review> reviews = reviewQueryService.getReviewsByTitle(title);
 
         if(!reviews.isEmpty()){
             if(reviews.size()==1){
-                reviewService.stergeReview(reviews.get(0));
+                reviewCommandService.stergeReview(reviews.get(0));
                 System.out.println("Reviewul a fost sters");
             }else{
                 for(int i =0 ; i < reviews.size(); i++){
@@ -524,16 +530,15 @@ public class AdminView {
 
                 System.out.println("Au fost gasite mai multe review-uri cu acest titlu, introduceti id-ul review-ului: ");
                 int id = Integer.parseInt(scanner.nextLine());
-                Review review = reviewService.findReviewById(id);
+                Review review = reviewQueryService.findReviewById(id);
                 if(review!=null) {
-                    reviewService.stergeReview(review);
+                    reviewCommandService.stergeReview(review);
                     System.out.println("Reviewul a fost sters!");
                 }else{
                     System.out.println("Reviewul nu a fost gasit");
                 }
             }
         }
-        reviewService.saveData();
 
     }
 
