@@ -16,7 +16,8 @@ import reviews.model.Review;
 import reviews.service.*;
 import users.models.Admin;
 import users.models.Customer;
-import users.service.UserService;
+import users.models.Users;
+import users.service.*;
 import utile.ProductDto;
 
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ public class AdminView {
 
     private Admin admin;
     private Scanner scanner;
-    private UserService userService;
     private ProductCommandService productCommandService;
     private ProductQueryService productQueryService;
     private ArrayList<Product> list = new ArrayList<>();
@@ -39,12 +39,14 @@ public class AdminView {
     private ArrayList<Review> reviews = new ArrayList<>();
     private ReviewCommandService reviewCommandService;
     private ReviewQueryService reviewQueryService;
+    private ArrayList<Users> users = new ArrayList<>();
+    private UserQueryService userQueryService;
+    private UserCommandService userCommandService;
 
 
 
     public AdminView(Admin admin){
         this.admin = admin;
-        this.userService = new UserService();
         this.orderCommandService = new OrderCommandServiceImpl(orders);
         this.orderQueryService = new OrderQueryServiceImpl(orders);
         this.productCommandService = new CommandServiceImpl(list);
@@ -53,6 +55,8 @@ public class AdminView {
         this.orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
         this.reviewCommandService = new ReviewComandServiceImpl(reviews);
         this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
         this.scanner = new Scanner(System.in);
 
@@ -119,7 +123,7 @@ public class AdminView {
 
             switch (alegere) {
                 case 1:
-                    userService.afisareClient();
+                    userQueryService.afisareClient();
                     break;
                 case 2:
                     stergeClient();
@@ -185,15 +189,15 @@ public class AdminView {
 
         System.out.println("Introduceti id-ul clientului: ");
         int id = Integer.parseInt(scanner.nextLine());
-        Customer client = userService.findCustomerById(id);
+        Customer client = userQueryService.findCustomerById(id);
 
         if(client!= null){
-            userService.stergeCont(client);
+            userCommandService.stergeCont(client);
             System.out.println("Client a fost sters!");
         }else{
             System.out.println("Client nu a fost gasit");
         }
-        userService.saveData();
+        userCommandService.saveData();
 
 
     }
@@ -201,7 +205,7 @@ public class AdminView {
     private void editareDateClient(){
         System.out.println("Introduceti id-ul clientului care doriti sa il editati: ");
         int id = Integer.parseInt(scanner.nextLine());
-        Customer client = userService.findCustomerById(id);
+        Customer client = userQueryService.findCustomerById(id);
 
         if(client != null) {
             System.out.println("Ce doriti sa editati? ");
@@ -455,7 +459,7 @@ public class AdminView {
 
     private void customerLoial(){
 
-        Customer customer = userService.findCustomerById(orderQueryService.clientCuCeleMaiMulteComenzi());
+        Customer customer = userQueryService.findCustomerById(orderQueryService.clientCuCeleMaiMulteComenzi());
 
         System.out.println("Clientul cu cele mai multe comenzi este: ");
         System.out.println(customer.descriere());
@@ -572,13 +576,13 @@ public class AdminView {
         System.out.println("Introduceti gradul(Moderator/Viewer): ");
         String grad = scanner.nextLine();
 
-        Admin admin = new Admin(userService.generateId(), username, password, grad);
+        Admin admin = new Admin(userQueryService.generateId(), username, password, grad);
 
-        if(userService.adaugareAdmin(admin)){
+        if(userCommandService.adaugareAdmin(admin)){
             System.out.println("Adminul a fost adaugat!");
         }else{
             System.out.println("Usernamul este deja folosit");
         }
-        userService.saveData();
+        userCommandService.saveData();
     }
 }

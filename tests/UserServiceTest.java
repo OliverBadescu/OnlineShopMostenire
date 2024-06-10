@@ -1,22 +1,28 @@
 import org.junit.Test;
 import users.models.Admin;
 import users.models.Customer;
-import users.service.UserService;
+import users.models.Users;
+import users.service.*;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class UserServiceTest {
 
-    UserService userService;
+    UserQueryService userQueryService;
+    UserCommandService userCommandService;
+    private ArrayList<Users> users = new ArrayList<>();
 
     @Test
 
     public void GivenAvailaibleDataCheckIfGetsLoaded(){
 
-        userService = new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
-        Customer customer = userService.findCustomerById(1);
+        Customer customer = userQueryService.findCustomerById(1);
 
         assertEquals(1, customer.getId());
 
@@ -26,21 +32,23 @@ public class UserServiceTest {
 
     public void afisare(){
 
-        userService= new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
-        userService.afisare();
-        userService.afisareClient();
-        int id = userService.generateId();
+        userQueryService.afisare();
+        userQueryService.afisareClient();
+        int id = userQueryService.generateId();
     }
 
     @Test
 
     public void GivenAvailaibleCustomerIdCheckIfGetsFound(){
 
-        userService = new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
-        Customer customer = userService.findCustomerById(1);
-        Customer none = userService.findCustomerById(10);
+        Customer customer = userQueryService.findCustomerById(1);
+        Customer none = userQueryService.findCustomerById(10);
 
         assertEquals(1, customer.getId());
         assertNull(none);
@@ -50,11 +58,12 @@ public class UserServiceTest {
 
     public void GivenAvailableCustomerAccountCheckIfGetsDeleted(){
 
-        userService = new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
-        userService.stergeCont(userService.findCustomerById(1));
+        userCommandService.stergeCont(userQueryService.findCustomerById(1));
 
-        assertNull(userService.findCustomerById(1));
+        assertNull(userQueryService.findCustomerById(1));
 
     }
 
@@ -62,10 +71,11 @@ public class UserServiceTest {
 
     public void GivenAvailableCustomerDataCheckIfGetsLogedIn(){
 
-        userService= new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
-        Customer none = userService.loginCustomer("asff", "1231");
-        Customer customer = userService.loginCustomer("john","password123");
+        Customer none = userQueryService.loginCustomer("asff", "1231");
+        Customer customer = userQueryService.loginCustomer("john","password123");
 
         assertEquals(1, customer.getId());
         assertNull(none);
@@ -76,10 +86,11 @@ public class UserServiceTest {
 
     public void GivenAvailableAdminDataCheckIfGetsLogedIn(){
 
-        userService= new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
-        Admin none = userService.loginAdmin("asff", "1231");
-        Admin admin = userService.loginAdmin("admin","123");
+        Admin none = userQueryService.loginAdmin("asff", "1231");
+        Admin admin = userQueryService.loginAdmin("admin","123");
 
         assertEquals(1, admin.getId());
         assertNull(none);
@@ -90,17 +101,18 @@ public class UserServiceTest {
 
     public void GivenAvailableCustomerCheckIfGetsRegistred(){
 
-        userService = new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
         Customer customer1 = new Customer(6, "ahmed", "test", "name", "email","address","country", 2333);
         Customer customer2 = new Customer(7, "test", "test", "name", "email","address","country", 2333);
 
 
-        userService.inregistrareCustomer(customer1);
-        userService.inregistrareCustomer(customer2);
+        userCommandService.inregistrareCustomer(customer1);
+        userCommandService.inregistrareCustomer(customer2);
 
 
-        assertNull(userService.findCustomerById(6));
-        assertEquals(customer2, userService.findCustomerById(7));
+        assertNull(userQueryService.findCustomerById(6));
+        assertEquals(customer2, userQueryService.findCustomerById(7));
 
     }
 
@@ -108,12 +120,13 @@ public class UserServiceTest {
 
     public void GivenAvailableAdminCheckIfGetsRegistred(){
 
-        userService = new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
         Admin n1 = new Admin(2, "test", "123", "t");
         Admin n2= new Admin(3, "admin", "123", "t");
 
-        userService.adaugareAdmin(n1);
-        userService.adaugareAdmin(n2);
+        userCommandService.adaugareAdmin(n1);
+        userCommandService.adaugareAdmin(n2);
 
 
 

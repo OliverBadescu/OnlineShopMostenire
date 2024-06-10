@@ -1,30 +1,24 @@
 package users.service;
 
-import users.models.Users;
 import users.models.Admin;
 import users.models.Customer;
+import users.models.Users;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class UserService {
+public class UserQueryServiceImpl implements UserQueryService{
 
     private ArrayList<Users> users;
 
-    public UserService(){
-
-        this.users = new ArrayList<>();
-
+    public UserQueryServiceImpl(ArrayList<Users> users) {
+        this.users = users;
         this.loadData();
-
-
     }
 
-
-    private void loadData(){
+    @Override
+    public void loadData(){
 
         try{
             String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\users\\data\\data.txt";
@@ -52,19 +46,6 @@ public class UserService {
         }
 
     }
-    public void saveData(){
-        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\users\\data\\data.txt";
-        try{
-            FileWriter fileWriter = new FileWriter(filePath);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print(this);
-            printWriter.close();
-        }catch (Exception e){
-
-            System.out.println(e);
-        }
-
-    }
 
     @Override
     public String toString() {
@@ -78,6 +59,7 @@ public class UserService {
         return text;
     }
 
+    @Override
     public void afisare(){
 
         for(int i = 0;i < users.size();i++){
@@ -93,6 +75,7 @@ public class UserService {
 
     }
 
+    @Override
     public void afisareClient(){
         for(int i =0 ; i < users.size();i++){
             if(users.get(i) instanceof Customer c){
@@ -101,6 +84,7 @@ public class UserService {
         }
     }
 
+    @Override
     public Customer findCustomerById(int id){
         for (int i =0; i < users.size();i++){
             if(users.get(i) instanceof Customer c){
@@ -112,6 +96,7 @@ public class UserService {
         return null;
     }
 
+    @Override
     public int generateId(){
 
         int id=(int) Math.round(Math.random()*1000+1);
@@ -124,13 +109,8 @@ public class UserService {
 
     }
 
-    public void stergeCont(Customer customer) {
-
-        this.users.remove(customer);
-
-    }
-
-    public Customer loginCustomer(String user,String parola){
+    @Override
+    public Customer loginCustomer(String user, String parola){
 
         for(int i =0; i < users.size();i++){
             if(users.get(i) instanceof Customer c){
@@ -143,7 +123,8 @@ public class UserService {
 
     }
 
-    public Admin loginAdmin(String user,String parola){
+    @Override
+    public Admin loginAdmin(String user, String parola){
 
         for(int i =0; i < users.size();i++){
             if(users.get(i) instanceof Admin a){
@@ -155,32 +136,4 @@ public class UserService {
         return null;
 
     }
-
-    public boolean inregistrareCustomer(Customer customer){
-        for(int i =0 ; i < users.size();i++){
-            if(users.get(i) instanceof Customer c){
-                if(c.getUsername().equals(customer.getUsername())){
-                    return false;
-                }
-            }
-        }
-        users.add(customer);
-        return true;
-    }
-
-    public boolean adaugareAdmin(Admin admin){
-
-        for(int i= 0 ; i < users.size();i++){
-            if(users.get(i) instanceof Admin a){
-                if(a.getUsername().equals(admin.getUsername())){
-                    return false;
-                }
-            }
-        }
-        users.add(admin);
-        return true;
-
-    }
-
-
 }

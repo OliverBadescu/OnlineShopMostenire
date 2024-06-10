@@ -2,18 +2,23 @@ package view;
 
 import users.models.Admin;
 import users.models.Customer;
-import users.service.UserService;
+import users.models.Users;
+import users.service.*;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class LoginView {
 
-    private UserService userService;
+    private UserQueryService userQueryService;
+    private UserCommandService userCommandService;
+    private ArrayList<Users> users = new ArrayList<>();
     private Scanner scanner;
 
     public LoginView(){
 
-        this.userService = new UserService();
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
         this.scanner = new Scanner(System.in);
 
         this.play();
@@ -67,7 +72,7 @@ public class LoginView {
         System.out.println("Parola: ");
         String parola = scanner.nextLine();
 
-        Customer customer = userService.loginCustomer(nume,parola);
+        Customer customer = userQueryService.loginCustomer(nume,parola);
 
         if(customer!=null){
             ClientView clientView = new ClientView(customer);
@@ -84,7 +89,7 @@ public class LoginView {
         System.out.println("Parola: ");
         String parola = scanner.nextLine();
 
-        Admin admin = userService.loginAdmin(nume,parola);
+        Admin admin = userQueryService.loginAdmin(nume,parola);
 
         if(admin!=null){
             AdminView adminView = new AdminView(admin);
@@ -112,14 +117,14 @@ public class LoginView {
         System.out.println("Phone: ");
         int phone = Integer.parseInt(scanner.nextLine());
 
-        Customer customer = new Customer(userService.generateId(),username,parola,fullName,email,billing,country,phone);
+        Customer customer = new Customer(userQueryService.generateId(),username,parola,fullName,email,billing,country,phone);
 
-        if (userService.inregistrareCustomer(customer)) {
+        if (userCommandService.inregistrareCustomer(customer)) {
             System.out.println("V-ati inregistrat cu succes, logati-va pentru a continua");
         } else {
             System.out.println("Username-ul este deja folosit");
         }
-        userService.saveData();
+        userCommandService.saveData();
 
     }
 

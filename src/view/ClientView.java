@@ -18,7 +18,8 @@ import products.service.QueryServiceImpl;
 import reviews.model.Review;
 import reviews.service.*;
 import users.models.Customer;
-import users.service.UserService;
+import users.models.Users;
+import users.service.*;
 import utile.Cos;
 import utile.ProductDto;
 
@@ -28,7 +29,6 @@ import java.util.Scanner;
 public class ClientView {
 
     private Customer customer;
-    private UserService userService;
     private ProductCommandService productCommandService;
     private ProductQueryService productQueryService;
     private Scanner scanner;
@@ -43,9 +43,11 @@ public class ClientView {
     private ArrayList<Review> reviews = new ArrayList<>();
     private ReviewCommandService reviewCommandService;
     private ReviewQueryService reviewQueryService;
+    private ArrayList<Users> users = new ArrayList<>();
+    private UserQueryService userQueryService;
+    private UserCommandService userCommandService;
 
     public ClientView(Customer customer){
-        this.userService = new UserService();
         this.scanner = new Scanner(System.in);
         this.customer = customer;
         this.cos = new Cos(this.customer.getId(), null);
@@ -57,6 +59,8 @@ public class ClientView {
         this.orderQueryService = new OrderQueryServiceImpl(orders);
         this.reviewCommandService = new ReviewComandServiceImpl(reviews);
         this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.userCommandService = new UserCommandServiceImpl(users);
+        this.userQueryService = new UserQueryServiceImpl(users);
 
         this.play();
     }
@@ -459,8 +463,7 @@ public class ClientView {
         String alegere = scanner.nextLine();
 
         if(alegere.equals("y")){
-            userService.stergeCont(this.customer);
-            userService.saveData();
+            userCommandService.stergeCont(this.customer);
         }
 
 

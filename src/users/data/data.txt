@@ -3,3 +3,4 @@ Admin,3,twsest,pw,mod
 Admin,298,etstare,parola,Viewer
 Customer,890,testttt,123,name,email,fff,124,20050
 Customer,609,test,test,test,test,test,test,123
+Admin,31,test,123,mod
