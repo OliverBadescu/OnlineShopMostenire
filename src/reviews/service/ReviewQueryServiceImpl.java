@@ -10,8 +10,9 @@ public class ReviewQueryServiceImpl implements ReviewQueryService{
 
     private ArrayList<Review> reviews;
 
-    public ReviewQueryServiceImpl(ArrayList<Review> reviews) {
-        this.reviews = reviews;
+
+    public ReviewQueryServiceImpl() {
+        this.reviews = new ArrayList<>();
         this.loadData();
     }
 

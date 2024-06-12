@@ -17,8 +17,8 @@ public class LoginView {
 
     public LoginView(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = UserCommandServiceSingleton.getInstance();
+        this.userQueryService = UserQueryServiceSingleton.getInstance();
         this.scanner = new Scanner(System.in);
 
         this.play();

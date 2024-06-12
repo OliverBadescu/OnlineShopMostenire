@@ -11,8 +11,8 @@ public class OrderDetailsQueryServiceImpl implements OrderDetailsQueryService{
 
     private ArrayList<OrderDetails> orderDetails;
 
-    public OrderDetailsQueryServiceImpl(ArrayList<OrderDetails> orderDetails) {
-        this.orderDetails  = orderDetails;
+    public OrderDetailsQueryServiceImpl() {
+        this.orderDetails = new ArrayList<>();
         this.loadData();
     }
 

@@ -1,6 +1,7 @@
 package orders.service;
 
 import order_details.model.OrderDetails;
+import order_details.service.OrderDetailsQueryServiceImpl;
 import orders.model.Order;
 
 import java.io.File;
@@ -14,8 +15,9 @@ public class OrderCommandServiceImpl implements OrderCommandService{
 
     private ArrayList<Order> orders;
 
-    public OrderCommandServiceImpl(ArrayList<Order> orders) {
-        this.orders = orders;
+    public OrderCommandServiceImpl() {
+        this.orders = new ArrayList<>();
+        this.loadData();
     }
 
     @Override

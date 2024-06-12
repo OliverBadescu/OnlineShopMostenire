@@ -6,12 +6,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class QueryServiceImpl implements ProductQueryService{
+public class ProductQueryServiceImpl implements ProductQueryService{
 
     private ArrayList<Product> products;
 
-    public QueryServiceImpl(ArrayList<Product> products){
-        this.products = products;
+
+    public ProductQueryServiceImpl(){
+        this.products = new ArrayList<>();
         this.loadData();
     }
 

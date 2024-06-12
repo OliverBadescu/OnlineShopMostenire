@@ -1,20 +1,45 @@
 package reviews.service;
 
-import orders.model.Order;
 import reviews.model.Review;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ReviewComandServiceImpl implements ReviewCommandService{
 
 
     private ArrayList<Review> reviews;
 
-    public ReviewComandServiceImpl(ArrayList<Review> reviews) {
-        this.reviews = reviews;
+
+    public ReviewComandServiceImpl() {
+        this.reviews = new ArrayList<>();
+        this.loadData();
     }
+
+    @Override
+    public void loadData(){
+
+        try{
+            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
+            File file = new File(filePath);
+            Scanner sc = new Scanner(file);
+            while (sc.hasNextLine()) {
+
+                String line = sc.nextLine();
+
+                Review review = new Review(line);
+
+                this.reviews.add(review);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public void saveData(){

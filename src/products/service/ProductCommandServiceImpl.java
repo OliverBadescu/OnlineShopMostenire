@@ -8,12 +8,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CommandServiceImpl implements ProductCommandService {
+public class ProductCommandServiceImpl implements ProductCommandService {
 
     private ArrayList<Product> products;
 
-    public CommandServiceImpl(ArrayList<Product> products) {
-        this.products = products;
+
+    public ProductCommandServiceImpl() {
+        this.products = new ArrayList<>();
+        this.loadData();
     }
 
     @Override

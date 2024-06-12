@@ -20,8 +20,8 @@ public class ReviewServiceTests {
         ArrayList<Review> reviews = new ArrayList<>();
         Review review = new Review(1,1,"test","test",5, 0);
         reviews.add(review);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         Review review1 = reviewQueryService.findReviewById(1);
         Review review2 = reviewQueryService.findReviewById(2);
@@ -36,8 +36,8 @@ public class ReviewServiceTests {
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
         Review review = reviewQueryService.findReviewById(1);
 
         assertEquals(1, review.getId());
@@ -51,8 +51,8 @@ public class ReviewServiceTests {
         ArrayList<Review> reviews = new ArrayList<>();
         Review review = new Review(1,1,"test","test",5, 0);
         reviews.add(review);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         reviewQueryService.afisare();
         int id = reviewQueryService.generateId();
@@ -65,8 +65,8 @@ public class ReviewServiceTests {
 
         ArrayList<Review> reviews = new ArrayList<>();
         Review review = new Review(1,1,"test","test",5,0);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         double rating = reviewQueryService.calculareRating(reviews);
         assertEquals(0,rating, 0);
@@ -84,8 +84,8 @@ public class ReviewServiceTests {
     public void GivenAvailableReviewCheckIfGetsAdded(){
         ArrayList<Review> reviews = new ArrayList<>();
         Review review = new Review(1,1,"test","test",5,0);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         reviewCommandService.adaugareReview(review);
 
@@ -101,8 +101,8 @@ public class ReviewServiceTests {
         Review review1 = new Review(2,2,"test","test",5,0);
         reviews.add(review);
         reviews.add(review1);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         ArrayList<Review> products = new ArrayList<>();
         products = reviewQueryService.getReviewsProduct(1);
@@ -120,8 +120,8 @@ public class ReviewServiceTests {
         Review review1 = new Review(2,2,"test","test",5,0);
         reviews.add(review);
         reviews.add(review1);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         int nr = reviewQueryService.getNrReviews(reviews);
 
@@ -137,8 +137,8 @@ public class ReviewServiceTests {
         Review review1 = new Review(2,2,"test1","test",5,0);
         reviews.add(review);
         reviews.add(review1);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         ArrayList<Review> test = reviewQueryService.getReviewsByTitle("test");
         assertEquals(1, test.size());
@@ -154,8 +154,8 @@ public class ReviewServiceTests {
         Review review1 = new Review(2,2,"test1","test",5,0);
         reviews.add(review);
         reviews.add(review1);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
+        this.reviewCommandService = new ReviewComandServiceImpl();
+        this.reviewQueryService = new ReviewQueryServiceImpl();
 
         reviewCommandService.stergeReview(review);
 

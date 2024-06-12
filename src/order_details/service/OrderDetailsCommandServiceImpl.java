@@ -12,8 +12,9 @@ public class OrderDetailsCommandServiceImpl implements OrderDetailsCommandServic
 
     private ArrayList<OrderDetails> orderDetails;
 
-    public OrderDetailsCommandServiceImpl(ArrayList<OrderDetails> list) {
-        this.orderDetails = list;
+    public OrderDetailsCommandServiceImpl() {
+        this.orderDetails = new ArrayList<>();
+        this.loadData();
     }
 
     @Override

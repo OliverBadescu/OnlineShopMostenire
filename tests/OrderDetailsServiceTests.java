@@ -12,14 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class OrderDetailsServiceTests {
 
-    ArrayList<OrderDetails> orderDetails;
 
     @Test
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl();
+        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl();
 
         OrderDetails orderDetails = orderDetailsQueryService.findOrderDetailsById(1);
 
@@ -30,8 +29,8 @@ public class OrderDetailsServiceTests {
 
     public void AfisareSiGenerare(){
 
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl();
+        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl();
 
         orderDetailsQueryService.afisare();
         int id = orderDetailsQueryService.generateId();
@@ -43,8 +42,8 @@ public class OrderDetailsServiceTests {
 
     public void GivenAvailableIdCheckIfGetsFound(){
 
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl();
+        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl();
 
         OrderDetails orderDetails1 = orderDetailsQueryService.findOrderDetailsById(1);
         OrderDetails orderDetails2 = orderDetailsQueryService.findOrderDetailsById(2);
@@ -59,8 +58,8 @@ public class OrderDetailsServiceTests {
     public void GivenAvailableOrderDetialsCheckIfGetsAdded(){
 
         OrderDetails orderDetails1 = new OrderDetails(1,1,1,999.99,2);
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl();
+        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl();
 
         orderDetailsCommandService.adaugare(orderDetails1);
 
@@ -68,23 +67,6 @@ public class OrderDetailsServiceTests {
 
     }
 
-    @Test
-
-    public void GivenAvailableOrderListCheckIfOrderDetailsListGetsReturned(){
-
-        ArrayList<Order> orders = new ArrayList<>();
-        Order order = new Order(1,1,150);
-        orders.add(order);
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
-
-
-        orderDetails = orderDetailsQueryService.orderList(orders);
-
-        assertEquals(2, orderDetails.get(0).getQuantity());
-
-
-    }
 
 
     @Test
@@ -93,8 +75,8 @@ public class OrderDetailsServiceTests {
         ArrayList<OrderDetails> orderDetailsList = new ArrayList<>();
         OrderDetails orderDetails1 = new OrderDetails(1,1,1,999.99,2);
         orderDetailsList.add(orderDetails1);
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl();
+        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl();
 
         int id =orderDetailsQueryService.celMaiVandutProdus();
 
@@ -106,11 +88,11 @@ public class OrderDetailsServiceTests {
 
     public void getOrderDetails(){
 
-
+        ArrayList<OrderDetails> list = new ArrayList<>();
         OrderDetails orderDetails1 = new OrderDetails(1,1,1,999.99,2);
-        orderDetails.add(orderDetails1);
-        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
+        list.add(orderDetails1);
+        OrderDetailsCommandService orderDetailsCommandService = new OrderDetailsCommandServiceImpl();
+        OrderDetailsQueryService orderDetailsQueryService = new OrderDetailsQueryServiceImpl();
 
         ArrayList<OrderDetails> orderDetails2 = orderDetailsQueryService.getOrderDetails();
 

@@ -1,24 +1,14 @@
 package view;
 
 import order_details.model.OrderDetails;
-import order_details.service.OrderDetailsCommandService;
-import order_details.service.OrderDetailsCommandServiceImpl;
-import order_details.service.OrderDetailsQueryService;
-import order_details.service.OrderDetailsQueryServiceImpl;
+import order_details.service.*;
 import orders.model.Order;
-import orders.service.OrderCommandService;
-import orders.service.OrderCommandServiceImpl;
-import orders.service.OrderQueryService;
-import orders.service.OrderQueryServiceImpl;
+import orders.service.*;
 import products.models.Product;
-import products.service.CommandServiceImpl;
-import products.service.ProductCommandService;
-import products.service.ProductQueryService;
-import products.service.QueryServiceImpl;
+import products.service.*;
 import reviews.model.Review;
 import reviews.service.*;
 import users.models.Customer;
-import users.models.Users;
 import users.service.*;
 import utile.Cos;
 import utile.ProductDto;
@@ -33,17 +23,12 @@ public class ClientView {
     private ProductQueryService productQueryService;
     private Scanner scanner;
     private Cos cos;
-    private ArrayList<Product> products = new ArrayList<>();
-    private ArrayList<OrderDetails> orderDetails = new ArrayList<>();
     private OrderDetailsQueryService orderDetailsQueryService;
     private OrderDetailsCommandService orderDetailsCommandService;
     private OrderCommandService orderCommandService;
     private OrderQueryService orderQueryService;
-    private ArrayList<Order> orders = new ArrayList<>();
-    private ArrayList<Review> reviews = new ArrayList<>();
     private ReviewCommandService reviewCommandService;
     private ReviewQueryService reviewQueryService;
-    private ArrayList<Users> users = new ArrayList<>();
     private UserQueryService userQueryService;
     private UserCommandService userCommandService;
 
@@ -51,16 +36,16 @@ public class ClientView {
         this.scanner = new Scanner(System.in);
         this.customer = customer;
         this.cos = new Cos(this.customer.getId(), null);
-        this.productCommandService = new CommandServiceImpl(products);
-        this.productQueryService = new QueryServiceImpl(products);
-        this.orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        this.orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
-        this.orderCommandService = new OrderCommandServiceImpl(orders);
-        this.orderQueryService = new OrderQueryServiceImpl(orders);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.orderCommandService = OrderCommandServiceSingleton.getInstance();
+        this.orderQueryService = OrderQueryServiceSingleton.getInstance();
+        this.productCommandService = ProductCommandServiceSingleton.getInstance();
+        this.productQueryService = ProductQueryServiceSingleton.getInstance();
+        this.orderDetailsCommandService = OrderDetailsCommandServiceSingleton.getInstance();
+        this.orderDetailsQueryService = OrderDetailsQueryServiceSingleton.getInstance();
+        this.reviewCommandService = ReviewCommandServiceSingleton.getInstance();
+        this.reviewQueryService = ReviewQueryServiceSingleton.getInstance();
+        this.userCommandService = UserCommandServiceSingleton.getInstance();
+        this.userQueryService = UserQueryServiceSingleton.getInstance();
 
         this.play();
     }

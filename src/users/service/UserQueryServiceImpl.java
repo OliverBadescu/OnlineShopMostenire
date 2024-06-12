@@ -12,8 +12,8 @@ public class UserQueryServiceImpl implements UserQueryService{
 
     private ArrayList<Users> users;
 
-    public UserQueryServiceImpl(ArrayList<Users> users) {
-        this.users = users;
+    public UserQueryServiceImpl() {
+        this.users = new ArrayList<>();
         this.loadData();
     }
 

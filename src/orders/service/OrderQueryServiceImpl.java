@@ -10,8 +10,9 @@ public class OrderQueryServiceImpl implements OrderQueryService{
 
     private ArrayList<Order> orders;
 
-    public OrderQueryServiceImpl(ArrayList<Order> orders) {
-        this.orders = orders;
+    public OrderQueryServiceImpl() {
+        this.orders = new ArrayList<>();
+        this.loadData();
     }
 
     @Override

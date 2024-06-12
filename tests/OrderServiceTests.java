@@ -18,8 +18,8 @@ public class OrderServiceTests {
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         Order order = orderQueryService.findOrderById(1);
 
@@ -33,8 +33,8 @@ public class OrderServiceTests {
 
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         orderQueryService.afisare();
         int id = orderQueryService.generateId();
@@ -48,8 +48,8 @@ public class OrderServiceTests {
 
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         Order order1 = orderQueryService.findOrderById(1);
         Order order2 = orderQueryService.findOrderById(2);
@@ -64,8 +64,8 @@ public class OrderServiceTests {
     public void GivenAvailableOrderCheckIfGetsAdded(){
 
         Order order = new Order(1,1,999.99);
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         orderCommandService.add(order);
 
@@ -82,8 +82,8 @@ public class OrderServiceTests {
         Order order1 = new Order(2,1,999.99);
         orders.add(order);
         orders.add(order1);
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         ArrayList<Order> orders1 = orderQueryService.findOrdersByCustomerId(1);
 
@@ -97,8 +97,8 @@ public class OrderServiceTests {
 
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         orderCommandService.stergeComanda(order);
 
@@ -112,8 +112,8 @@ public class OrderServiceTests {
 
         Order order = new Order(1,1,999.99);
         orders.add(order);
-        orderQueryService = new OrderQueryServiceImpl(orders);
-        orderCommandService = new OrderCommandServiceImpl(orders);
+        orderQueryService = new OrderQueryServiceImpl();
+        orderCommandService = new OrderCommandServiceImpl();
 
         int id = orderQueryService.clientCuCeleMaiMulteComenzi();
 

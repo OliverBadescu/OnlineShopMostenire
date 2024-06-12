@@ -1,21 +1,24 @@
 import org.junit.Test;
 import products.models.Product;
-import products.service.CommandServiceImpl;
-import products.service.QueryServiceImpl;
+import products.service.ProductCommandServiceImpl;
+import products.service.ProductQueryServiceImpl;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class ProductServiceTests {
 
-    CommandServiceImpl commandService;
-    QueryServiceImpl queryService;
+    ProductCommandServiceImpl commandService;
+    ProductQueryServiceImpl queryService;
+    ArrayList<Product> list = new ArrayList<>();
 
     @Test
 
     public void GivenAvailableDataCheckIfGetsLoaded(){
 
-        queryService = new QueryServiceImpl();
+        queryService = new ProductQueryServiceImpl();
 
         Product product= queryService.findProductById(1);
 
@@ -29,8 +32,8 @@ public class ProductServiceTests {
 
     public void afisareSortare(){
 
-        queryService = new QueryServiceImpl();
-        commandService = new CommandServiceImpl();
+        queryService = new ProductQueryServiceImpl();
+        commandService = new ProductCommandServiceImpl();
 
         queryService.afisare();
         queryService.afisareLaptopuri();
@@ -53,7 +56,7 @@ public class ProductServiceTests {
 
     public void GivenAvailableProductIdCheckIfGetsFound(){
 
-        queryService = new QueryServiceImpl();
+        queryService = new ProductQueryServiceImpl();
 
         Product product= queryService.findProductById(1);
         Product none = queryService.findProductById(11);
@@ -67,7 +70,7 @@ public class ProductServiceTests {
 
     public void GivenAvailableProductNameCheckIfGetsFound(){
 
-        queryService = new QueryServiceImpl();
+        queryService = new ProductQueryServiceImpl();
 
         Product product = queryService.findByName("Samsung S21");
         Product none = queryService.findByName("111");

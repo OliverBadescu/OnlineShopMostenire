@@ -1,22 +1,15 @@
 package view;
 
 import order_details.model.OrderDetails;
-import order_details.service.OrderDetailsCommandService;
-import order_details.service.OrderDetailsCommandServiceImpl;
-import order_details.service.OrderDetailsQueryService;
-import order_details.service.OrderDetailsQueryServiceImpl;
+import order_details.service.*;
 import orders.model.Order;
 import orders.service.*;
 import products.models.*;
-import products.service.CommandServiceImpl;
-import products.service.ProductCommandService;
-import products.service.ProductQueryService;
-import products.service.QueryServiceImpl;
+import products.service.*;
 import reviews.model.Review;
 import reviews.service.*;
 import users.models.Admin;
 import users.models.Customer;
-import users.models.Users;
 import users.service.*;
 import utile.ProductDto;
 
@@ -29,17 +22,12 @@ public class AdminView {
     private Scanner scanner;
     private ProductCommandService productCommandService;
     private ProductQueryService productQueryService;
-    private ArrayList<Product> list = new ArrayList<>();
-    private ArrayList<OrderDetails> orderDetails = new ArrayList<>();
     private OrderDetailsQueryService orderDetailsQueryService;
     private OrderDetailsCommandService orderDetailsCommandService;
     private OrderCommandService orderCommandService;
     private OrderQueryService orderQueryService;
-    private ArrayList<Order> orders = new ArrayList<>();
-    private ArrayList<Review> reviews = new ArrayList<>();
     private ReviewCommandService reviewCommandService;
     private ReviewQueryService reviewQueryService;
-    private ArrayList<Users> users = new ArrayList<>();
     private UserQueryService userQueryService;
     private UserCommandService userCommandService;
 
@@ -47,16 +35,16 @@ public class AdminView {
 
     public AdminView(Admin admin){
         this.admin = admin;
-        this.orderCommandService = new OrderCommandServiceImpl(orders);
-        this.orderQueryService = new OrderQueryServiceImpl(orders);
-        this.productCommandService = new CommandServiceImpl(list);
-        this.productQueryService = new QueryServiceImpl(list);
-        this.orderDetailsCommandService = new OrderDetailsCommandServiceImpl(orderDetails);
-        this.orderDetailsQueryService = new OrderDetailsQueryServiceImpl(orderDetails);
-        this.reviewCommandService = new ReviewComandServiceImpl(reviews);
-        this.reviewQueryService = new ReviewQueryServiceImpl(reviews);
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.orderCommandService = OrderCommandServiceSingleton.getInstance();
+        this.orderQueryService = OrderQueryServiceSingleton.getInstance();
+        this.productCommandService = ProductCommandServiceSingleton.getInstance();
+        this.productQueryService = ProductQueryServiceSingleton.getInstance();
+        this.orderDetailsCommandService = OrderDetailsCommandServiceSingleton.getInstance();
+        this.orderDetailsQueryService = OrderDetailsQueryServiceSingleton.getInstance();
+        this.reviewCommandService = ReviewCommandServiceSingleton.getInstance();
+        this.reviewQueryService = ReviewQueryServiceSingleton.getInstance();
+        this.userCommandService = UserCommandServiceSingleton.getInstance();
+        this.userQueryService = UserQueryServiceSingleton.getInstance();
 
         this.scanner = new Scanner(System.in);
 

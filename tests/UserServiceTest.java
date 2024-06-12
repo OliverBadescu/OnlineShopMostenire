@@ -19,8 +19,8 @@ public class UserServiceTest {
 
     public void GivenAvailaibleDataCheckIfGetsLoaded(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
 
         Customer customer = userQueryService.findCustomerById(1);
 
@@ -32,8 +32,8 @@ public class UserServiceTest {
 
     public void afisare(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
 
         userQueryService.afisare();
         userQueryService.afisareClient();
@@ -44,8 +44,8 @@ public class UserServiceTest {
 
     public void GivenAvailaibleCustomerIdCheckIfGetsFound(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
 
         Customer customer = userQueryService.findCustomerById(1);
         Customer none = userQueryService.findCustomerById(10);
@@ -58,8 +58,8 @@ public class UserServiceTest {
 
     public void GivenAvailableCustomerAccountCheckIfGetsDeleted(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
 
         userCommandService.stergeCont(userQueryService.findCustomerById(1));
 
@@ -71,8 +71,8 @@ public class UserServiceTest {
 
     public void GivenAvailableCustomerDataCheckIfGetsLogedIn(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
 
         Customer none = userQueryService.loginCustomer("asff", "1231");
         Customer customer = userQueryService.loginCustomer("john","password123");
@@ -86,8 +86,8 @@ public class UserServiceTest {
 
     public void GivenAvailableAdminDataCheckIfGetsLogedIn(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
 
         Admin none = userQueryService.loginAdmin("asff", "1231");
         Admin admin = userQueryService.loginAdmin("admin","123");
@@ -101,8 +101,8 @@ public class UserServiceTest {
 
     public void GivenAvailableCustomerCheckIfGetsRegistred(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
         Customer customer1 = new Customer(6, "ahmed", "test", "name", "email","address","country", 2333);
         Customer customer2 = new Customer(7, "test", "test", "name", "email","address","country", 2333);
 
@@ -120,8 +120,8 @@ public class UserServiceTest {
 
     public void GivenAvailableAdminCheckIfGetsRegistred(){
 
-        this.userCommandService = new UserCommandServiceImpl(users);
-        this.userQueryService = new UserQueryServiceImpl(users);
+        this.userCommandService = new UserCommandServiceImpl();
+        this.userQueryService = new UserQueryServiceImpl();
         Admin n1 = new Admin(2, "test", "123", "t");
         Admin n2= new Admin(3, "admin", "123", "t");
 
