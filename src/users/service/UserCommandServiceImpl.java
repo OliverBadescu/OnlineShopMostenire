@@ -15,10 +15,12 @@ import java.util.Scanner;
 public class UserCommandServiceImpl implements UserCommandService{
 
     private ArrayList<Users> users;
+    private UsersFileManager usersFileManager;
 
     public UserCommandServiceImpl() {
 
         this.users= new ArrayList<>();
+        this.usersFileManager = new UsersFileManager();
         this.loadData();
     }
 
@@ -54,15 +56,7 @@ public class UserCommandServiceImpl implements UserCommandService{
 
     @Override
     public void saveData(){
-        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\users\\data\\data.txt";
-        try (FileWriter fileWriter = new FileWriter(filePath, false);
-             PrintWriter printWriter = new PrintWriter(fileWriter)) {
-            for (Users users1 : users) {
-                printWriter.println(users1.toString());
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        usersFileManager.saveData();
 
     }
 

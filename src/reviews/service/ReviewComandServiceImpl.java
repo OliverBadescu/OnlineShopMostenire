@@ -12,58 +12,38 @@ public class ReviewComandServiceImpl implements ReviewCommandService{
 
 
     private ArrayList<Review> reviews;
+    private ReviewsFileManager reviewsFileManager;
 
 
     public ReviewComandServiceImpl() {
         this.reviews = new ArrayList<>();
-        this.loadData();
+        this.reviewsFileManager = new ReviewsFileManager();
+        reviewsFileManager.loadData();
     }
 
     @Override
     public void loadData(){
 
-        try{
-            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
-            File file = new File(filePath);
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-
-                String line = sc.nextLine();
-
-                Review review = new Review(line);
-
-                this.reviews.add(review);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        reviewsFileManager.loadData();
 
     }
 
 
     @Override
     public void saveData(){
-        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
-        try (FileWriter fileWriter = new FileWriter(filePath, false);
-             PrintWriter printWriter = new PrintWriter(fileWriter)) {
-            for (Review review : reviews) {
-                printWriter.println(review.toString());
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        reviewsFileManager.saveData();
 
     }
 
     @Override
     public void stergeReview(Review review){
         this.reviews.remove(review);
-        saveData();
+        reviewsFileManager.saveData();
     }
 
     @Override
     public void adaugareReview(Review review){
         this.reviews.add(review);
-        saveData();
+        reviewsFileManager.saveData();
     }
 }

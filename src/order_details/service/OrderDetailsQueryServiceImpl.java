@@ -10,30 +10,18 @@ import java.util.Scanner;
 public class OrderDetailsQueryServiceImpl implements OrderDetailsQueryService{
 
     private ArrayList<OrderDetails> orderDetails;
+    private OrderDetailsFileManager orderDetailsFileManager;
 
     public OrderDetailsQueryServiceImpl() {
         this.orderDetails = new ArrayList<>();
+        this.orderDetailsFileManager = new OrderDetailsFileManager();
         this.loadData();
     }
 
     @Override
     public void loadData() {
 
-        try{
-            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\order_details\\data\\orderDetails.txt";
-            File file = new File(filePath);
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-
-                String line = sc.nextLine();
-
-                OrderDetails order = new OrderDetails(line);
-
-                this.orderDetails.add(order);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        orderDetailsFileManager.loadData();
     }
 
     @Override

@@ -9,10 +9,12 @@ import java.util.Scanner;
 public class ReviewQueryServiceImpl implements ReviewQueryService{
 
     private ArrayList<Review> reviews;
+    private ReviewsFileManager reviewsFileManager;
 
 
     public ReviewQueryServiceImpl() {
         this.reviews = new ArrayList<>();
+        this.reviewsFileManager = new ReviewsFileManager();
         this.loadData();
     }
 
@@ -114,21 +116,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService{
     @Override
     public void loadData(){
 
-        try{
-            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
-            File file = new File(filePath);
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-
-                String line = sc.nextLine();
-
-                Review review = new Review(line);
-
-                this.reviews.add(review);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        reviewsFileManager.loadData();
 
     }
 

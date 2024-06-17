@@ -9,29 +9,17 @@ import java.util.Scanner;
 public class OrderQueryServiceImpl implements OrderQueryService{
 
     private ArrayList<Order> orders;
+    private OrderFileManager orderFileManager;
 
     public OrderQueryServiceImpl() {
+        this.orderFileManager = new OrderFileManager();
         this.orders = new ArrayList<>();
-        this.loadData();
+        orderFileManager.loadData();
     }
 
     @Override
     public void loadData() {
-        try{
-            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\orders\\data\\orders.txt";
-            File file = new File(filePath);
-            Scanner sc = new Scanner(file);
-            while (sc.hasNextLine()) {
-
-                String line = sc.nextLine();
-
-                Order order = new Order(line);
-
-                this.orders.add(order);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        orderFileManager.loadData();
     }
 
     @Override

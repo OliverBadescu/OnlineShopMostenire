@@ -11,10 +11,12 @@ import java.util.Scanner;
 public class ProductCommandServiceImpl implements ProductCommandService {
 
     private ArrayList<Product> products;
+    private ProductsFileManager productsFileManager;
 
 
     public ProductCommandServiceImpl() {
         this.products = new ArrayList<>();
+        this.productsFileManager = new ProductsFileManager();
         this.loadData();
     }
 
@@ -57,15 +59,7 @@ public class ProductCommandServiceImpl implements ProductCommandService {
 
     @Override
     public void saveData() {
-        String filePath = "C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\products\\data\\products.txt";
-        try (FileWriter fileWriter = new FileWriter(filePath, false);
-             PrintWriter printWriter = new PrintWriter(fileWriter)) {
-            for (Product product : products) {
-                printWriter.println(product.toString());
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        productsFileManager.saveData();
     }
 
     @Override
