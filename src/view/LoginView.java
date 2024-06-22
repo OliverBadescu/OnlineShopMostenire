@@ -117,7 +117,7 @@ public class LoginView {
         System.out.println("Phone: ");
         int phone = Integer.parseInt(scanner.nextLine());
 
-        Customer customer = new Customer(userQueryService.generateId(),username,parola,fullName,email,billing,country,phone);
+        Customer customer = new Customer(userQueryService.generateId(),username,parola,fullName,email,billing,country,phone, false);
 
         if (userCommandService.inregistrareCustomer(customer)) {
             System.out.println("V-ati inregistrat cu succes, logati-va pentru a continua");

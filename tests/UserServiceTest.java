@@ -103,8 +103,8 @@ public class UserServiceTest {
 
         this.userCommandService = new UserCommandServiceImpl();
         this.userQueryService = new UserQueryServiceImpl();
-        Customer customer1 = new Customer(6, "ahmed", "test", "name", "email","address","country", 2333);
-        Customer customer2 = new Customer(7, "test", "test", "name", "email","address","country", 2333);
+        Customer customer1 = new Customer(6, "ahmed", "test", "name", "email","address","country", 2333,false);
+        Customer customer2 = new Customer(7, "test", "test", "name", "email","address","country", 2333,false);
 
 
         userCommandService.inregistrareCustomer(customer1);

@@ -136,4 +136,23 @@ public class UserQueryServiceImpl implements UserQueryService{
         return null;
 
     }
+
+    @Override
+    public boolean subscribeToNewsletter(Customer u){
+        if(u.isAbonat()){
+            return false;
+        }
+        u.setAbonat(true);
+        return true;
+
+    }
+
+    @Override
+    public boolean unsubscribeFromNewsletter(Customer u){
+        if(u.isAbonat()){
+            u.setAbonat(false);
+            return true;
+        }
+        return false;
+    }
 }

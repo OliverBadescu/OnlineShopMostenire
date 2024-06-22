@@ -1,6 +1,7 @@
 package orders.service;
 
 import order_details.model.OrderDetails;
+import orders.model.Order;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 
 public class OrderFileManager implements Data {
 
-    private ArrayList<OrderDetails> orderDetails = new ArrayList<>();
+    private ArrayList<Order> orders = new ArrayList<>();
 
 
     @Override
@@ -18,7 +19,7 @@ public class OrderFileManager implements Data {
         String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\orders\\data\\orders.txt";
         try (FileWriter fileWriter = new FileWriter(filePath, false);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
-            for (OrderDetails order : orderDetails) {
+            for (Order order : orders) {
                 printWriter.println(order.toString());
             }
         } catch (Exception e) {
@@ -37,9 +38,9 @@ public class OrderFileManager implements Data {
 
                 String line = sc.nextLine();
 
-                OrderDetails order = new OrderDetails(line);
+                Order order = new Order(line);
 
-                this.orderDetails.add(order);
+                this.orders.add(order);
             }
         }catch (Exception e){
             e.printStackTrace();

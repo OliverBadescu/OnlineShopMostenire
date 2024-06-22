@@ -7,15 +7,20 @@ public class Customer extends Users {
     private String billingAdress;
     private String country;
     private int phone;
+    private boolean abonat;
 
-    public Customer(int id, String username, String password, String fullName, String email, String billingAdress, String country, int phone){
-        super("Customer", id, username,password);
+
+
+    public Customer(int id, String username, String password, String fullName, String email, String billingAdress, String country, int phone, boolean abonat) {
+        super("Customer", id, username, password);
         this.fullName = fullName;
         this.email = email;
         this.billingAdress = billingAdress;
         this.country = country;
-        this.phone=phone;
+        this.phone = phone;
+        this.abonat = abonat;
     }
+
 
     public Customer(String text){
 
@@ -39,6 +44,13 @@ public class Customer extends Users {
     public void setCountry(String country) {this.country = country;}
     public int getPhone() {return phone;}
     public void setPhone(int phone) {this.phone = phone;}
+    public boolean isAbonat() {
+        return abonat;
+    }
+    public void setAbonat(boolean abonat) {
+        this.abonat = abonat;
+    }
+
 
     @Override
     public String descriere(){
@@ -50,6 +62,7 @@ public class Customer extends Users {
         text+= "BillingAdress: " + this.billingAdress + "\n";
         text+= "Country: " + this.country + "\n";
         text+= "Phone: " + this.phone + "\n";
+        text+= "Abonat la newsletter: " + this.abonat + "\n";
         return text;
 
     }

@@ -21,7 +21,6 @@ public interface OrderDetailsQueryService {
 
     ArrayList<OrderDetails> getOrderDetails();
 
-
      String toString();
 
 }

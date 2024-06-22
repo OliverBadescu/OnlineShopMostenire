@@ -1,8 +1,6 @@
+package newspaper.service;
 
-package reviews.service;
-
-import orders.service.Data;
-import reviews.model.Review;
+import newspaper.model.Newspaper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,18 +8,17 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ReviewsFileManager implements Data {
+public class NewspaperFileManager implements Data{
 
-    private ArrayList<Review> reviews = new ArrayList<>();
-
+    private ArrayList<Newspaper> newspapers = new ArrayList<>();
 
     @Override
     public void saveData(){
-        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
+        String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\newspaper\\data\\newspaper.txt";
         try (FileWriter fileWriter = new FileWriter(filePath, false);
              PrintWriter printWriter = new PrintWriter(fileWriter)) {
-            for (Review review : reviews) {
-                printWriter.println(review.toString());
+            for (Newspaper newspaper : newspapers) {
+                printWriter.println(newspaper.toString());
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -32,21 +29,19 @@ public class ReviewsFileManager implements Data {
     @Override
     public void loadData() {
         try{
-            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\reviews\\data\\reviews.txt";
+            String filePath="C:\\mycode\\java\\mostenire\\OnlineShopMostenire\\src\\newspaper\\data\\newspaper.txt";
             File file = new File(filePath);
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
 
                 String line = sc.nextLine();
+                Newspaper newspaper = new Newspaper(line);
 
-                Review review = new Review(line);
-
-                this.reviews.add(review);
+                this.newspapers.add(newspaper);
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-
 
 }

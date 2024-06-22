@@ -1,14 +1,8 @@
 package orders.service;
-
-import order_details.model.OrderDetails;
-import order_details.service.OrderDetailsQueryServiceImpl;
 import orders.model.Order;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class OrderCommandServiceImpl implements OrderCommandService {
     private ArrayList<Order> orders;

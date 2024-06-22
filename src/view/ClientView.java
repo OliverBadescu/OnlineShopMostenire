@@ -1,5 +1,9 @@
 package view;
 
+import newspaper.service.NewspaperCommandService;
+import newspaper.service.NewspaperCommandServiceSingleton;
+import newspaper.service.NewspaperQueryService;
+import newspaper.service.NewspaperQueryServiceSingleton;
 import order_details.model.OrderDetails;
 import order_details.service.*;
 import orders.model.Order;
@@ -31,6 +35,8 @@ public class ClientView {
     private ReviewQueryService reviewQueryService;
     private UserQueryService userQueryService;
     private UserCommandService userCommandService;
+    private NewspaperCommandService newspaperCommandService;
+    private NewspaperQueryService newspaperQueryService;
 
     public ClientView(Customer customer){
         this.scanner = new Scanner(System.in);
@@ -46,6 +52,8 @@ public class ClientView {
         this.reviewQueryService = ReviewQueryServiceSingleton.getInstance();
         this.userCommandService = UserCommandServiceSingleton.getInstance();
         this.userQueryService = UserQueryServiceSingleton.getInstance();
+        this.newspaperCommandService = NewspaperCommandServiceSingleton.getInstance();
+        this.newspaperQueryService = NewspaperQueryServiceSingleton.getInstance();
 
         this.play();
     }
@@ -87,6 +95,13 @@ public class ClientView {
         System.out.println("13. Afisati datele dvs.");
         System.out.println("14. Editati datele dvs.");
         System.out.println("15. Stergeti contul dvs.");
+
+        System.out.println("\n");
+
+        System.out.println("Newsletter:");
+        System.out.println("16. Afisare");
+        System.out.println("17. Subscribe");
+        System.out.println("18. Unsubscribe");
 
         System.out.println("\n");
         System.out.println("Apasati tasta 20 pentru a iesi din cont");
@@ -145,6 +160,15 @@ public class ClientView {
                     break;
                 case 15:
                     stergereCont();
+                    break;
+                case 16:
+                    afisareNewsletter();
+                    break;
+                case 17:
+                    abonareNewsletter();
+                    break;
+                case 18:
+                    dezabonareNewsletter();
                     break;
                 case 20:
                     running = false;
@@ -451,6 +475,32 @@ public class ClientView {
             userCommandService.stergeCont(this.customer);
         }
 
+
+    }
+
+    public void abonareNewsletter(){
+        if(userQueryService.subscribeToNewsletter(this.customer)){
+            System.out.println("V-ati abonat cu succes");
+        }else{
+            System.out.println("Sunteti deja abonat la acest newsletter");
+        }
+    }
+
+    public void dezabonareNewsletter(){
+        if(userQueryService.unsubscribeFromNewsletter(this.customer)){
+            System.out.println("V-ati dezabonat cu succes");
+        }else{
+            System.out.println("Nu sunteti abonat la acest newsletter");
+        }
+    }
+
+    public void afisareNewsletter(){
+
+        if(this.customer.isAbonat()){
+            newspaperQueryService.afisare();
+        }else{
+            System.out.println("Nu sunteti abonat la acest newsletter");
+        }
 
     }
 }

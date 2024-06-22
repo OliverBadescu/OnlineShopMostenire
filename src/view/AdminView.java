@@ -1,5 +1,6 @@
 package view;
 
+import newspaper.service.*;
 import order_details.model.OrderDetails;
 import order_details.service.*;
 import orders.model.Order;
@@ -30,6 +31,8 @@ public class AdminView {
     private ReviewQueryService reviewQueryService;
     private UserQueryService userQueryService;
     private UserCommandService userCommandService;
+    private NewspaperCommandService newspaperCommandService;
+    private NewspaperQueryService newspaperQueryService;
 
 
 
@@ -45,6 +48,8 @@ public class AdminView {
         this.reviewQueryService = ReviewQueryServiceSingleton.getInstance();
         this.userCommandService = UserCommandServiceSingleton.getInstance();
         this.userQueryService = UserQueryServiceSingleton.getInstance();
+        this.newspaperCommandService = NewspaperCommandServiceSingleton.getInstance();
+        this.newspaperQueryService = NewspaperQueryServiceSingleton.getInstance();
 
         this.scanner = new Scanner(System.in);
 
@@ -96,7 +101,11 @@ public class AdminView {
 
         System.out.println("\n");
 
-        System.out.println("20. Iesi din cont");
+        System.out.println("Newspaper:");
+        System.out.println("20. Actualizeaza newspaper-ul");
+        System.out.println("21. Afiseaza newspaper-ul");
+
+        System.out.println("22. Iesi din cont");
 
     }
 
@@ -165,6 +174,12 @@ public class AdminView {
                     adaugareAdmin();
                     break;
                 case 20:
+                    actualizareNewspaper();
+                    break;
+                case 21:
+                    newspaperQueryService.afisare();
+                    break;
+                case 22:
                     running = false;
                     break;
                 default:
@@ -572,5 +587,17 @@ public class AdminView {
             System.out.println("Usernamul este deja folosit");
         }
         userCommandService.saveData();
+    }
+
+    private void actualizareNewspaper(){
+
+        System.out.println("Intruceti noua oferta: ");
+        String txt = scanner.nextLine();
+
+        newspaperCommandService.update(txt);
+        newspaperQueryService.notifyUsers();
+
+        System.out.println("Oferta a fost actualizata!");
+
     }
 }
