@@ -16,5 +16,6 @@ public interface ProductQueryService {
      Product findByName(String name);
      String toString();
      int generateId();
+     boolean createProduct(String type);
 
 }

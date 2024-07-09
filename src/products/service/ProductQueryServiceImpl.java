@@ -187,5 +187,14 @@ public class ProductQueryServiceImpl implements ProductQueryService{
         return null;
     }
 
+    @Override
+    public boolean createProduct(String type){
+        return switch (type) {
+            case "Laptop", "Monitor", "Telefon", "SmartWatch" -> true;
+            default -> false;
+        };
+
+    }
+
 
 }

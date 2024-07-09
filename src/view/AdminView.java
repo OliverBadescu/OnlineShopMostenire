@@ -1,6 +1,5 @@
 package view;
 
-import newspaper.service.*;
 import order_details.model.OrderDetails;
 import order_details.service.*;
 import orders.model.Order;
@@ -31,8 +30,6 @@ public class AdminView {
     private ReviewQueryService reviewQueryService;
     private UserQueryService userQueryService;
     private UserCommandService userCommandService;
-    private NewspaperCommandService newspaperCommandService;
-    private NewspaperQueryService newspaperQueryService;
 
 
 
@@ -48,8 +45,6 @@ public class AdminView {
         this.reviewQueryService = ReviewQueryServiceSingleton.getInstance();
         this.userCommandService = UserCommandServiceSingleton.getInstance();
         this.userQueryService = UserQueryServiceSingleton.getInstance();
-        this.newspaperCommandService = NewspaperCommandServiceSingleton.getInstance();
-        this.newspaperQueryService = NewspaperQueryServiceSingleton.getInstance();
 
         this.scanner = new Scanner(System.in);
 
@@ -101,11 +96,7 @@ public class AdminView {
 
         System.out.println("\n");
 
-        System.out.println("Newspaper:");
-        System.out.println("20. Actualizeaza newspaper-ul");
-        System.out.println("21. Afiseaza newspaper-ul");
-
-        System.out.println("22. Iesi din cont");
+        System.out.println("20. Iesi din cont");
 
     }
 
@@ -133,6 +124,9 @@ public class AdminView {
                     break;
                 case 5:
                     stergeProdus();
+                    break;
+                case 6:
+                    aduagareProdus();
                     break;
                 case 7:
                     editareProdus();
@@ -174,12 +168,6 @@ public class AdminView {
                     adaugareAdmin();
                     break;
                 case 20:
-                    actualizareNewspaper();
-                    break;
-                case 21:
-                    newspaperQueryService.afisare();
-                    break;
-                case 22:
                     running = false;
                     break;
                 default:
@@ -570,6 +558,64 @@ public class AdminView {
         }
     }
 
+    private void aduagareProdus(){
+
+        System.out.println("Ce tip de produs doriti sa adaugati?");
+        String type = scanner.nextLine();
+
+        if(productQueryService.createProduct(type)){
+            System.out.println("Introduceti datele necesare:");
+            int id = productQueryService.generateId();
+            System.out.println("Nume: ");
+            String name = scanner.nextLine();
+            System.out.println("Pret: ");
+            double price = Double.parseDouble(scanner.nextLine());
+            System.out.println("Stock: ");
+            int stock = Integer.parseInt(scanner.nextLine());
+
+            switch (type){
+                case "Laptop":
+                    System.out.println("Ram:");
+                    int ram = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Procesor: ");
+                    String procesor = scanner.nextLine();
+                    System.out.println("Placa video: ");
+                    String placaVideo = scanner.nextLine();
+                    System.out.println("Dimensiune: ");
+                    int dimensiune = Integer.parseInt(scanner.nextLine());
+
+                    Laptop laptop = new Laptop(id, name, price, stock, ram, procesor, placaVideo,dimensiune);
+                    productCommandService.adaugareProdus(laptop);
+                    break;
+
+                case "Monitor":
+                    System.out.println("Hz: ");
+                    int hz = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Dimensiune: ");
+                    double dimensiune1 = Double.parseDouble(scanner.nextLine());
+
+                    Monitor monitor = new Monitor(id, name, price,stock,hz, dimensiune1);
+                    productCommandService.adaugareProdus(monitor);
+                    break;
+
+                case "SmartWatch":
+                    System.out.println("Marime bratara: ");
+                    int marimeBratara = Integer.parseInt(scanner.nextLine());
+
+                    SmartWatch smartWatch = new SmartWatch(id, name, price,stock,marimeBratara);
+                    productCommandService.adaugareProdus(smartWatch);
+                    break;
+                default:
+                    System.out.println("ERROR");
+            }
+
+
+        }else{
+            System.out.println("Acest tip de produs nu exista");
+        }
+
+    }
+
     private void adaugareAdmin(){
 
         System.out.println("Introduceti user-ul: ");
@@ -587,17 +633,5 @@ public class AdminView {
             System.out.println("Usernamul este deja folosit");
         }
         userCommandService.saveData();
-    }
-
-    private void actualizareNewspaper(){
-
-        System.out.println("Intruceti noua oferta: ");
-        String txt = scanner.nextLine();
-
-        newspaperCommandService.update(txt);
-        newspaperQueryService.notifyUsers();
-
-        System.out.println("Oferta a fost actualizata!");
-
     }
 }
