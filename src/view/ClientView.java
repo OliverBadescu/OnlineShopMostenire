@@ -1,5 +1,10 @@
 package view;
 
+import appearance.command.AppearanceCommandInvoker;
+import appearance.model.DarkMode;
+import appearance.model.LightMode;
+import appearance.service.AppearanceService;
+import appearance.service.AppearanceServiceSingleton;
 import newspaper.service.NewspaperCommandService;
 import newspaper.service.NewspaperCommandServiceSingleton;
 import newspaper.service.NewspaperQueryService;
@@ -37,6 +42,8 @@ public class ClientView {
     private UserCommandService userCommandService;
     private NewspaperCommandService newspaperCommandService;
     private NewspaperQueryService newspaperQueryService;
+    private AppearanceService appearanceService;
+    private AppearanceCommandInvoker appearanceInvoker;
 
     public ClientView(Customer customer){
         this.scanner = new Scanner(System.in);
@@ -54,6 +61,8 @@ public class ClientView {
         this.userQueryService = UserQueryServiceSingleton.getInstance();
         this.newspaperCommandService = NewspaperCommandServiceSingleton.getInstance();
         this.newspaperQueryService = NewspaperQueryServiceSingleton.getInstance();
+        this.appearanceService = AppearanceServiceSingleton.getInstance();
+        this.appearanceInvoker = new AppearanceCommandInvoker();
 
         this.play();
     }
@@ -102,6 +111,11 @@ public class ClientView {
         System.out.println("16. Afisare");
         System.out.println("17. Subscribe");
         System.out.println("18. Unsubscribe");
+
+        System.out.println("\n");
+
+        System.out.println("Appearance:");
+        System.out.println("19. Light/Dark Mode");
 
         System.out.println("\n");
         System.out.println("Apasati tasta 20 pentru a iesi din cont");
@@ -170,6 +184,9 @@ public class ClientView {
                 case 18:
                     dezabonareNewsletter();
                     break;
+                case 19:
+                    toggleAppearance();
+                    break;
                 case 20:
                     running = false;
                     break;
@@ -178,6 +195,15 @@ public class ClientView {
             }
         }
 
+    }
+
+    private void toggleAppearance() {
+        if (appearanceService.isDarkMode()) {
+            appearanceInvoker.setCommand(new LightMode(appearanceService));
+        } else {
+            appearanceInvoker.setCommand(new DarkMode(appearanceService));
+        }
+        appearanceInvoker.executeCommand();
     }
 
     private void filtrare(){
